@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.params=x\ y\ dimX\ dimY
+comment0.target=double[]\ calculateAttachmentPoints(double,\ double,\ double,\ double)
+comment0.text=\nCalculates\ the\ snap\ points\ of\ a\ shape\n\n@param\ x\ The\ x-Coordinate\n@param\ y\ The\ y-Coordinate\n@param\ dimX\ The\ x-based\ dimension\n@param\ dimY\ The\ y-based\ dimension\n\n@return\ The\ base\ 4\ indexed\ array\ of\ data\ used\ to\ create\ the\ snap\ points\n\n
+numComments=1
