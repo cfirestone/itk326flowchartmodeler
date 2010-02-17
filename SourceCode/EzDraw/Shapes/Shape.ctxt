@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.target=void\ draw()
+comment0.text=\nA\ stub\ for\ all\ children\ to\ implement\ on\ a\ drawing\ strategy\n\n
+comment1.target=void\ drawAttachmentSections()
+comment1.text=\nCalls\ the\ IAttachable\ to\ calculate\ snap\ points\n\n
+comment2.params=c
+comment2.target=void\ setColor(Color)
+comment2.text=\nSets\ the\ current\ color\ context\n\n@param\ c\ The\ Color\ to\ be\ set\n\n
+comment3.params=x\ y
+comment3.target=void\ setCoordinates(double,\ double)
+comment3.text=\nSet\ the\ coordinates\ of\ the\ shape\n\n@param\ x\ The\ coordinate\ in\ the\ x\ direction\n@param\ y\ The\ coordiante\ in\ the\ y\ direction\n\n
+comment4.params=x\ y
+comment4.target=void\ setDimensions(double,\ double)
+comment4.text=\nSet\ the\ Dimensions\ of\ the\ shape\n\n@param\ x\ The\ dimension\ in\ the\ x\ direction\n@param\ y\ The\ dimension\ in\ the\ y\ direction\n\n
+comment5.target=double\ getXDimension()
+comment5.text=\nGets\ the\ dimension\ in\ the\ x\ direction\ \n\n@return\ The\ value\ of\ the\ shape's\ dimension\ in\ the\ x\ direction\n\n
+comment6.target=double\ getYDimension()
+comment6.text=\nGets\ the\ dimension\ in\ the\ y\ direction\ \n\n@return\ The\ value\ of\ the\ shape's\ dimension\ in\ the\ y\ direction\n\n
+comment7.target=double\ getXPosition()
+comment7.text=\nGets\ the\ position\ in\ the\ x\ axis\n\n@return\ The\ value\ of\ the\ x\ coordinate\ of\ the\ shape\n\n
+comment8.target=double\ getYPosition()
+comment8.text=\nGet\ the\ position\ in\ the\ y\ axis\n\n@return\ The\ value\ of\ the\ y\ coordiante\ of\ the\ shape\n\n
+comment9.params=a
+comment9.target=void\ setAttachmentStrategy(IAttachable)
+comment9.text=\nSet\ the\ attachment\ strategy\ (IAttachable)\ for\ the\ shape\n\n@param\ a\ The\ attachment\ strategy\ to\ be\ used\n\n
+numComments=10

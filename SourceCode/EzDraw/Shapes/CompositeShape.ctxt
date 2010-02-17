@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=CompositeShape()
+comment0.text=\nDefault\ constructor\n\n
+comment1.params=c
+comment1.target=void\ addShapes(Collection<Shape>)
+comment1.text=\nAdds\ all\ elements\ of\ a\ collection\ to\ the\ children\n\n@param\ c\ The\ collection\ of\ shapes\ to\ add\n\n
+comment2.params=s
+comment2.target=void\ addShape(Shape)
+comment2.text=\nAdds\ an\ element\ to\ the\ children\n\n@param\ s\ The\ shape\ to\ be\ added\n\n
+comment3.target=void\ setDimensions()
+comment3.text=\nCalculates\ and\ sets\ the\ dimension\ base\ on\ its\ children\n\n
+comment4.target=void\ draw()
+comment4.text=\n{@inheritDoc}\n\n
+numComments=5
