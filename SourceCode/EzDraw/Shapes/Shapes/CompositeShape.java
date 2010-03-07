@@ -82,4 +82,8 @@ public class CompositeShape extends Shape {
         System.out.println("end children" + eol);
         //implement drawing
     }
+
+    public LinkedList<Shape> getListOfShapes() {
+        return m_ChildShapes;
+    }
 }

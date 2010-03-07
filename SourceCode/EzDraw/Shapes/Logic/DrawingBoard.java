@@ -22,4 +22,12 @@ public abstract class DrawingBoard {
 
     abstract protected void drawShape(Shape s);
 
+    final public void addShape(Shape s) {
+        listOfShapes.add(s);
+    }
+
+    final public void removeShape(Shape s) {
+        listOfShapes.remove(s);
+    }
+
 }

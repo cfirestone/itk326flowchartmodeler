@@ -40,7 +40,6 @@ public class GUI extends JFrame {
         menuBar.add(fileMenu);
         menuBar.add(drawMenu);
 
-        this.add(new Canvas());
 
     }
 
@@ -48,12 +47,6 @@ public class GUI extends JFrame {
         GUI window = new GUI();
         window.setBounds(30, 30, 300, 300); // Size
         window.setTitle("EzDraw 1.0");
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Error setting look and feel");
-        }
         window.setVisible(true);
     }
 }
