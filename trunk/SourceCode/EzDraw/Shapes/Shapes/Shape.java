@@ -7,12 +7,14 @@ package Shapes; /**
  */
 
 import java.awt.*;
+import java.util.LinkedList;
 
 public abstract class Shape {
     private double m_PositionX;
     private double m_PositionY;
     private double m_DimensionX;
     private double m_DimensionY;
+    private LinkedList<Point> listOfPoints;
     protected IAttachable m_AttachmentStrategy;
     private Color m_ColorContext;
 
@@ -116,5 +118,9 @@ public abstract class Shape {
      */
     protected void setAttachmentStrategy(IAttachable a) {
         m_AttachmentStrategy = a;
+    }
+
+    public LinkedList<Point> getListOfPoints() {
+        return listOfPoints;
     }
 }
