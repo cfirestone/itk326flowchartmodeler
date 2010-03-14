@@ -8,7 +8,7 @@ package Shapes;
  */
 public class Main {
     public static void main(String args[]) {
-        Shape s = new Rectangle();
+       /* Shape s = new Rectangle();
         s.setCoordinates(5, 5);
         s.setDimensions(100, 50);
         s.draw();
@@ -50,6 +50,6 @@ public class Main {
         l.setCoordinates(1, 1);
         l.setDimensions(2, 2);
         l.draw();
-        l.drawAttachmentSections();
+        l.drawAttachmentSections();  */
     }
 }
