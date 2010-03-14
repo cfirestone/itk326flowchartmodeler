@@ -44,7 +44,7 @@ public class CompositeShape extends Shape {
 
     /**
      * Calculates and sets the dimension base on its children
-     */
+     */                                                                                                          S
     public void setDimensions() {
         double largex = -1, largey = -1;
         double smallx = -1, smally = -1;
