@@ -9,18 +9,15 @@ package Shapes;
 
 public class Circle extends SimpleShape {
 
-    public Circle() {
+    public Circle(Point p1, Point p2) {
+        super(p1,p2);
         m_AttachmentStrategy = new AttachSides();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void draw() {
-        String eol = System.getProperty("line.separator");
-        System.out.println("I'm a circle being drawn at X: "
-                + getXPosition() + " Y: " + getYPosition()
-                + " with Dimensions X: " + getXDimension() + " Y: "
-                + getYDimension());
+    public void calculatePoints() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
