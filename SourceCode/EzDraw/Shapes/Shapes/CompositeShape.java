@@ -1,4 +1,5 @@
-package Shapes; /**
+package Shapes;
+/**
  * Defines a shape of shapes
  *
  * @author Justin Blakley & Carl Firestone
@@ -14,7 +15,9 @@ public class CompositeShape extends Shape {
     /**
      * Default constructor
      */
-    public CompositeShape() {
+    public CompositeShape(Point p1, Point p2)
+    {
+        super(p1, p2);
         m_ChildShapes = new LinkedList();
         m_AttachmentStrategy = new AttachSides();
     }
@@ -60,27 +63,31 @@ public class CompositeShape extends Shape {
         //offset by .5 to make a "boarder"
         setCoordinates(smallx - .5, smally - .5);
         setDimensions((largex - smallx) + 1.0, (largey - smally) + 1.0);
+
+        calculatePoints();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void draw() {
-        String eol = System.getProperty("line.separator");
-        System.out.println("I'm drawing a composite shape at X: "
-                + getXPosition() + " Y: " + getYPosition()
-                + " and Dimensions X: " + getXDimension() + " Y: "
-                + getYDimension()
-                + "\t I have " + m_ChildShapes.size() + " children" + eol
-                + "Here they are: ");
+     public void calculatePoints() {
+        if(listOfPoints == null)
+            listOfPoints = new LinkedList<Point>();
 
-        for (int i = 0; i < m_ChildShapes.size(); i++) {
-            System.out.print("\t");
-            m_ChildShapes.get(i).draw();
+        Point topLeft = new Point(m_PositionY, m_PositionX);
+        Point topRight = new Point(m_PositionY,(m_PositionX + m_DimensionX));
+        Point bottomRight = new Point((m_PositionY + m_DimensionY),(m_PositionX + m_DimensionX));
+        Point bottomLeft = new Point((m_PositionY + m_DimensionY), m_PositionX);
+
+        listOfPoints.add(topLeft);
+        listOfPoints.add(topRight);
+        listOfPoints.add(bottomRight);
+        listOfPoints.add(bottomLeft);
+      
+        for(int i = 0; i < m_ChildShapes.size(); i++)
+        {
+            m_ChildShapes.get(i).calculatePoints();
         }
-
-        System.out.println("end children" + eol);
-        //implement drawing
     }
 
     public LinkedList<Shape> getListOfShapes() {

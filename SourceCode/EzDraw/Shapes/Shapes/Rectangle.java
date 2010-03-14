@@ -1,5 +1,7 @@
 package Shapes;
 
+import java.util.LinkedList;
+
 /**
  * Represents a geometric Rectangle
  *
@@ -9,7 +11,8 @@ package Shapes;
 public class Rectangle extends SimpleShape {
     protected String m_Type;
 
-    public Rectangle() {
+    public Rectangle(Point p1, Point p2) {
+        super(p1,p2);
         m_Type = "Rectangle";
         m_AttachmentStrategy = new AttachSides();
     }
@@ -17,11 +20,9 @@ public class Rectangle extends SimpleShape {
     /**
      * {@inheritDoc}
      */
-    public void draw() {
-        String eol = System.getProperty("line.separator");
-        System.out.println("I'm a " + m_Type + " being drawn at X: "
-                + getXPosition() + " Y: " + getYPosition()
-                + " with Dimensions X: " + getXDimension() + " Y: "
-                + getYDimension());
+    public void calculatePoints() {
+        if(listOfPoints == null)
+            listOfPoints = new LinkedList<Point>();
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
