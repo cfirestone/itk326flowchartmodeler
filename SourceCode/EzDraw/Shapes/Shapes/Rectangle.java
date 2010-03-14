@@ -23,6 +23,15 @@ public class Rectangle extends SimpleShape {
     public void calculatePoints() {
         if(listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        Point topLeft = new Point(m_PositionY, m_PositionX);
+        Point topRight = new Point(m_PositionY,(m_PositionX + m_DimensionX));
+        Point bottomRight = new Point((m_PositionY + m_DimensionY),(m_PositionX + m_DimensionX));
+        Point bottomLeft = new Point((m_PositionY + m_DimensionY), m_PositionX);
+
+        listOfPoints.add(topLeft);
+        listOfPoints.add(topRight);
+        listOfPoints.add(bottomRight);
+        listOfPoints.add(bottomLeft);
     }
 }
