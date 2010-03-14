@@ -1,5 +1,7 @@
 package Shapes;
 
+import java.util.LinkedList;
+
 /**
  * Write a description of class Main here.
  *
@@ -8,13 +10,13 @@ package Shapes;
  */
 public class Main {
     public static void main(String args[]) {
-       /* Shape s = new Rectangle();
-        s.setCoordinates(5, 5);
-        s.setDimensions(100, 50);
-        s.draw();
-        s.drawAttachmentSections();
-
-        Shape a = new Circle();
+        Shape s = new Rectangle(new Point(5,5), new Point (55, 105));
+        LinkedList<Point> pts = s.getListOfPoints();
+        for(int i= 0; i < pts.size(); i++)
+        {
+            System.out.println( pts.get(i).toString());
+        }
+        /*Shape a = new Circle();
         a.setCoordinates(200, 50);
         a.setDimensions(70, 70);
         a.draw();
