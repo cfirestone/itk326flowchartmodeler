@@ -1,5 +1,7 @@
 package Shapes;
 
+import java.util.LinkedList;
+
 /**
  * Describes how to draw a line
  *
@@ -7,18 +9,22 @@ package Shapes;
  * @version 1.0.0.0
  */
 public class Line extends SimpleShape {
-    public Line() {
+    public Line(Point p1, Point p2) {
+        super(p1,p2);
         m_AttachmentStrategy = new AttachNone();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void draw() {
-        String eol = System.getProperty("line.separator");
-        System.out.println("I'm a line being drawn from X: "
-                + getXPosition() + "Y: " + getYPosition()
-                + eol + "to X: " + (getXDimension() + getXPosition()) + " Y: "
-                + (getYDimension() + getYPosition()));
+    public void calculatePoints() {
+        if(listOfPoints == null)
+            listOfPoints = new LinkedList<Point>();
+
+        Point start = new Point(m_PositionY, m_PositionX);
+        Point end = new Point((m_PositionY + m_DimensionY),(m_PositionX + m_DimensionX));
+
+        listOfPoints.add(start);
+        listOfPoints.add(end);
     }
 }
