@@ -9,7 +9,8 @@ package Shapes;
 public class TextBox extends Rectangle {
     private String m_Text;
 
-    public TextBox() {
+    public TextBox(Point p1, Point p2) {
+        super(p1,p2);
         m_Type = "TextBox";
     }
 
@@ -29,15 +30,5 @@ public class TextBox extends Rectangle {
      */
     public String getText() {
         return m_Text;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void draw() {
-        super.draw();
-        String eol = System.getProperty("line.separator");
-        System.out.println("My Text: " + eol + m_Text);
-
     }
 }
