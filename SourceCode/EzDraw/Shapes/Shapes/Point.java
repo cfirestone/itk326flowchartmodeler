@@ -31,7 +31,11 @@ public class Point {
         this.y = y;
     }
 
-    public String toString(){
-        return "X = "+ x + " Y = " + y;
+    public double getDistance(Point other) {
+        return Math.sqrt(Math.pow((x - other.getX()), 2) + Math.pow((y - other.getY()), 2));
+    }
+
+    public String toString() {
+        return "X = " + x + " Y = " + y;
     }
 }
