@@ -10,7 +10,7 @@ import java.util.LinkedList;
  */
 
 public class Circle extends SimpleShape {
-    private final double THETA_INCR = 1;
+    private final double THETA_INCR = .3;
 
     public Circle(Point p1, Point p2) {
         super(p1, p2);
@@ -32,6 +32,7 @@ public class Circle extends SimpleShape {
             double newY = startPoint.getY() + (radius * Math.sin(theta));
             listOfPoints.add(new Point(newX, newY));
         }
+        listOfPoints.add(endPoint);
 
     }
 

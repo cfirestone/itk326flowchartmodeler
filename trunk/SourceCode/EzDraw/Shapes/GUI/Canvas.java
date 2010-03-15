@@ -37,7 +37,21 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public void mouseDragged(MouseEvent e) {
-        endPoint = new Shapes.Point(e.getX(), e.getY());
+
+
+    }
+
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        endPoint = new Shapes.Point(e.getY(), e.getX());
         if (mouseDown) {
             switch (currentTool) {
                 case SELECT:
@@ -57,24 +71,12 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
             }
             this.paintAll(this.getGraphics());
         }
-    }
-
-    public void mouseMoved(MouseEvent e) {
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-
-    public void mouseReleased(MouseEvent e) {
         mouseDown = false;
     }
 
     public void mousePressed(MouseEvent e) {
         mouseDown = true;
-        startPoint = new Shapes.Point(e.getX(), e.getY());
+        startPoint = new Shapes.Point(e.getY(), e.getX());
 
 
     }
