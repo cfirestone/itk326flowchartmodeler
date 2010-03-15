@@ -52,7 +52,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
             Polygon poly = new Polygon();
             for (int i = 0; i < listOfPoints.size(); i++) {
                 Point p = listOfPoints.get(i);
-                poly.addPoint((int) p.getY(), (int) p.getX());
+                poly.addPoint((int) p.getX(), (int) p.getY());
             }
 
 
