@@ -44,7 +44,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
                 == InputEvent.BUTTON3_MASK) {
             System.out.println("Right Click Fired");
 
-            Shapes.Shape selectedShape = ((DrawingBoardJava2D) db).getShape(new Shapes.Point(e.getY(), e.getX()));
+            Shapes.Shape selectedShape = ((DrawingBoardJava2D) db).getShape(new Shapes.Point(e.getX(), e.getY()));
             if (selectedShape != null) {
                 System.out.println("Bring up Context Menu for " + selectedShape.getClass().getName() +
                         " at location: (" + selectedShape.getStartPoint().getX() + "," +
@@ -71,7 +71,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public void mouseReleased(MouseEvent e) {
-        endPoint = new Shapes.Point(e.getY(), e.getX());
+        endPoint = new Shapes.Point(e.getX(), e.getY());
         if (mouseDown && ((e.getModifiers() & InputEvent.BUTTON1_MASK)
                 == InputEvent.BUTTON1_MASK)) {
             switch (currentTool) {
@@ -99,7 +99,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         if ((e.getModifiers() & InputEvent.BUTTON1_MASK)
                 == InputEvent.BUTTON1_MASK) {
             mouseDown = true;
-            startPoint = new Shapes.Point(e.getY(), e.getX());
+            startPoint = new Shapes.Point(e.getX(), e.getY());
         }
 
     }
