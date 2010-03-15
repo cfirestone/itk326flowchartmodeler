@@ -79,7 +79,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
      * @param b The ending point of the line
      */
     private void drawLine(Point a, Point b) {
-        Line2D.Double graphicsLine = new Line2D.Double(a.getX(), a.getY(), a.getX(), b.getY());
+        Line2D.Double graphicsLine = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
         graphics2dObj.draw(graphicsLine);
     }
 
