@@ -39,4 +39,8 @@ public abstract class DrawingBoard {
         drawShapes();
     }
 
+    final public void clearAllShapes() {
+        listOfShapes.clear();
+    }
+
 }

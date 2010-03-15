@@ -15,7 +15,7 @@ import java.util.LinkedList;
  */
 public class DrawingBoardJava2D extends DrawingBoard {
 
-    private Graphics2D graphics2dObj;
+    private Graphics2D g2;
 
 
     // RENDER_MODE = 0 --> No Fill
@@ -27,7 +27,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
     }
 
     public void setGraphics(Graphics g) {
-        graphics2dObj = (Graphics2D) g;
+        g2 = (Graphics2D) g;
         g.setColor(Color.black);
     }
 
@@ -52,16 +52,20 @@ public class DrawingBoardJava2D extends DrawingBoard {
             Polygon poly = new Polygon();
             for (int i = 0; i < listOfPoints.size(); i++) {
                 Point p = listOfPoints.get(i);
-                poly.addPoint((int) p.getX(), (int) p.getY());
+                poly.addPoint((int) p.getY(), (int) p.getX());
             }
 
-            graphics2dObj.draw(poly);
+
+            g2.setColor(new Color(240, 240, 240));
+            g2.fill(poly);
+            g2.setColor(Color.black);
+            g2.draw(poly);
 
             if (s instanceof TextBox) {
                 TextBox t = (TextBox) s;
                 String text = t.getText();
                 double heightMidPoint = ((listOfPoints.get(0).getY()) + (listOfPoints.get(listOfPoints.size() - 1)).getY()) / 2.0;
-                graphics2dObj.drawString(text, (int) (listOfPoints.get(0).getX()), (int) heightMidPoint);
+                g2.drawString(text, (int) (listOfPoints.get(0).getX()), (int) heightMidPoint);
             }
             if (s instanceof CompositeShape) {
                 LinkedList<Shape> listOfShapes = ((CompositeShape) s).getListOfShapes();
@@ -80,7 +84,21 @@ public class DrawingBoardJava2D extends DrawingBoard {
      */
     private void drawLine(Point a, Point b) {
         Line2D.Double graphicsLine = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
-        graphics2dObj.draw(graphicsLine);
+        g2.draw(graphicsLine);
+    }
+
+    public Shape getShape(Shapes.Point point) {
+        boolean foundTopShape = false;
+        Shape foundShape = null;
+        for (int i = 0; i < listOfShapes.size(); i++) {
+            if (!foundTopShape) {
+                if (listOfShapes.get(listOfShapes.size() - 1 - i).containsPoint(point)) {
+                    foundShape = listOfShapes.get(i);
+                    foundTopShape = true;
+                }
+            }
+        }
+        return foundShape;
     }
 
 

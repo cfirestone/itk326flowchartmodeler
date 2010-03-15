@@ -8,6 +8,7 @@ import Shapes.TextBox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -24,6 +25,8 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     protected Shapes.Point startPoint, endPoint, currPoint;
     protected boolean mouseDown;
     private ToolType currentTool;
+    private RightClickMenu popup;
+
 
     public Canvas() {
         setBackground(Color.white);
@@ -31,14 +34,31 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         addMouseListener(this);
         setDb(new DrawingBoardJava2D());
         currentTool = ToolType.SELECT;
+
+        popup = new RightClickMenu();
+        this.addMouseListener(this);
     }
 
     public void mouseClicked(MouseEvent e) {
+        if ((e.getModifiers() & InputEvent.BUTTON3_MASK)
+                == InputEvent.BUTTON3_MASK) {
+            System.out.println("Right Click Fired");
+
+            Shapes.Shape selectedShape = ((DrawingBoardJava2D) db).getShape(new Shapes.Point(e.getY(), e.getX()));
+            if (selectedShape != null) {
+                System.out.println("Bring up Context Menu for " + selectedShape.getClass().getName() +
+                        " at location: (" + selectedShape.getStartPoint().getX() + "," +
+                        selectedShape.getStartPoint().getY() + ")");
+                popup.show(e.getComponent(), e.getX(), e.getY());
+            } else {
+                System.out.println("No shape at location");
+            }
+
+        }
+
     }
 
     public void mouseDragged(MouseEvent e) {
-
-
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -52,7 +72,8 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 
     public void mouseReleased(MouseEvent e) {
         endPoint = new Shapes.Point(e.getY(), e.getX());
-        if (mouseDown) {
+        if (mouseDown && ((e.getModifiers() & InputEvent.BUTTON1_MASK)
+                == InputEvent.BUTTON1_MASK)) {
             switch (currentTool) {
                 case SELECT:
                     break;
@@ -75,9 +96,11 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public void mousePressed(MouseEvent e) {
-        mouseDown = true;
-        startPoint = new Shapes.Point(e.getY(), e.getX());
-
+        if ((e.getModifiers() & InputEvent.BUTTON1_MASK)
+                == InputEvent.BUTTON1_MASK) {
+            mouseDown = true;
+            startPoint = new Shapes.Point(e.getY(), e.getX());
+        }
 
     }
 
@@ -113,5 +136,9 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     public void setCurrentTool(ToolType tool) {
         currentTool = tool;
         System.out.println("Current tool is now: " + tool.toString());
+    }
+
+    void clearAllShapes() {
+        db.clearAllShapes();
     }
 }

@@ -19,7 +19,7 @@ import java.awt.event.ItemListener;
 public class GUI extends JFrame implements ActionListener, ItemListener {
     private JMenuBar menuBar = new JMenuBar(); // Window menu bar
     private JMenuItem newItem, openItem, closeItem, saveItem, saveAsItem, printItem, exitItem,
-            lineItem, rectItem, circleItem, textboxItem, selectItem;
+            lineItem, rectItem, circleItem, textboxItem, selectItem, clearItem;
     private Canvas canvas;
 
     public GUI() {
@@ -43,6 +43,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         toolMenu.add(circleItem = new JMenuItem("Draw Circle"));
         toolMenu.add(textboxItem = new JMenuItem("Draw Textbox"));
         toolMenu.add(selectItem = new JMenuItem("Select Tool"));
+        toolMenu.add(clearItem = new JMenuItem("Clear All"));
         menuBar.add(fileMenu);
         menuBar.add(toolMenu);
 
@@ -54,6 +55,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         circleItem.addActionListener(this);
         textboxItem.addActionListener(this);
         selectItem.addActionListener(this);
+        clearItem.addActionListener(this);
 
     }
 
@@ -75,6 +77,9 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
             canvas.setCurrentTool(ToolType.DRAW_RECTANGLE);
         } else if (source.getText().equals("Select Tool")) {
             canvas.setCurrentTool(ToolType.SELECT);
+        } else if (source.getText().equals("Clear All")) {
+            canvas.clearAllShapes();
+            canvas.repaint();
         }
     }
 
