@@ -16,10 +16,11 @@ public abstract class Shape {
 
     /**
      * Base Constructor for all other shapes
+     *
      * @param p1 The starting point (upper left corner of bounding rectangle)
      * @param p2 The ending point (lower right corner of bounding rectangle)
      */
-    public Shape(Point p1, Point p2){
+    public Shape(Point p1, Point p2) {
         startPoint = p1;
         endPoint = p2;
 
@@ -33,32 +34,35 @@ public abstract class Shape {
 
     /**
      * Returns the start point
-     * @return  The start Point
+     *
+     * @return The start Point
      */
-    public Point getStartPoint(){
+    public Point getStartPoint() {
         return startPoint;
     }
 
     /**
      * Returns the end point
      */
-    public Point getEndPoint(){
+    public Point getEndPoint() {
         return endPoint;
     }
 
     /**
      * Sets the starting point of the shape
+     *
      * @param p The point to set the start point
      */
-    public void setStartPoint(Point p){
+    public void setStartPoint(Point p) {
         startPoint = p;
     }
 
     /**
      * Sets the end point
+     *
      * @param p The point to set the end point
      */
-    public void setEndPoint(Point p){
+    public void setEndPoint(Point p) {
         endPoint = p;
     }
 
@@ -68,8 +72,8 @@ public abstract class Shape {
     public void drawAttachmentSections() {
         double[] sections =
                 m_AttachmentStrategy.calculateAttachmentPoints(startPoint.getX(), startPoint.getY(),
-                         Math.abs((endPoint.getX()-startPoint.getX())),
-                         Math.abs((endPoint.getY()-startPoint.getY())));
+                        Math.abs((endPoint.getX() - startPoint.getX())),
+                        Math.abs((endPoint.getY() - startPoint.getY())));
 
         /*
         * use graphics package to render snap points
@@ -96,9 +100,13 @@ public abstract class Shape {
 
     /**
      * retSurns the list of points for drawing the shape
+     *
      * @return - The list of points returned
      */
     public LinkedList<Point> getListOfPoints() {
         return listOfPoints;
     }
+
+    abstract public boolean containsPoint(Point p);
+
 }

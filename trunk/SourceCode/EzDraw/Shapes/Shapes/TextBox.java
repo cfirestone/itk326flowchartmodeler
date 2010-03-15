@@ -10,8 +10,9 @@ public class TextBox extends Rectangle {
     private String m_Text;
 
     public TextBox(Point p1, Point p2) {
-        super(p1,p2);
+        super(p1, p2);
         m_Type = "TextBox";
+        m_Text = "(default text)";
     }
 
     /**

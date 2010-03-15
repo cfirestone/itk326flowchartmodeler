@@ -12,14 +12,13 @@ import java.util.LinkedList;
 public class CompositeShape extends Shape {
     private LinkedList<Shape> m_ChildShapes;
 
-   /**
-    * Describes how to draw a composite shape
-    *
-    * @author Justin Blakley & Carl Firestone
-    * @version 1.0.0.0
-    */
-    public CompositeShape(Point p1, Point p2)
-    {
+    /**
+     * Describes how to draw a composite shape
+     *
+     * @author Justin Blakley & Carl Firestone
+     * @version 1.0.0.0
+     */
+    public CompositeShape(Point p1, Point p2) {
         super(p1, p2);
         m_ChildShapes = new LinkedList();
         m_AttachmentStrategy = new AttachSides();
@@ -47,7 +46,7 @@ public class CompositeShape extends Shape {
 
     /**
      * Calculates and sets the dimension base on its children
-     */                                                                                                          
+     */
     public void setDimensions() {
         double largex = -1, largey = -1;
         double smallx = -1, smally = -1;
@@ -78,7 +77,7 @@ public class CompositeShape extends Shape {
         }
 
         //offset by .5 to make a "boarder"
-        startPoint = new Point((smally - .5),(smallx - .5));
+        startPoint = new Point((smally - .5), (smallx - .5));
         endPoint = new Point(largey + .5, largex + .5);
 
         calculatePoints();
@@ -87,22 +86,26 @@ public class CompositeShape extends Shape {
     /**
      * {@inheritDoc}
      */
-     public void calculatePoints() {
-        if(listOfPoints == null)
+    public void calculatePoints() {
+        if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
 
-        Point topRight = new Point(startPoint.getY(),endPoint.getX());
+        Point topRight = new Point(startPoint.getY(), endPoint.getX());
         Point bottomLeft = new Point(endPoint.getY(), startPoint.getX());
 
         listOfPoints.add(startPoint);
         listOfPoints.add(topRight);
         listOfPoints.add(endPoint);
         listOfPoints.add(bottomLeft);
-      
-        for(int i = 0; i < m_ChildShapes.size(); i++)
-        {
+
+        for (int i = 0; i < m_ChildShapes.size(); i++) {
             m_ChildShapes.get(i).calculatePoints();
         }
+    }
+
+    public boolean containsPoint(Point point) {
+        //TODO
+        return false;
     }
 
     public LinkedList<Shape> getListOfShapes() {
