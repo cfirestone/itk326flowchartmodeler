@@ -21,9 +21,10 @@ public class Circle extends SimpleShape {
      * {@inheritDoc}
      */
     public void calculatePoints() {
-        if (listOfPoints == null) {
+        if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
-        }
+
+        listOfPoints.clear();
 
         double radius = startPoint.getDistance(endPoint);
 
@@ -33,6 +34,16 @@ public class Circle extends SimpleShape {
             listOfPoints.add(new Point(newX, newY));
         }
 
+        //This is so the dimensions of the actual shape are correct
+        double newStartX = startPoint.getX() - radius;
+        double newStartY = startPoint.getY() - radius;
+        double newEndX = startPoint.getX() + radius;
+        double newEndY = startPoint.getY() + radius;
+
+        startPoint.setX(newStartX);
+        startPoint.setY(newStartY);
+        endPoint.setX(newEndX);
+        endPoint.setY(newEndY);        
     }
 
     /**
