@@ -2,7 +2,7 @@ package Logic;
 
 import Shapes.Shape;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * User: Carl
@@ -10,9 +10,13 @@ import java.util.ArrayList;
  * Time: 5:35:19 PM
  */
 public abstract class DrawingBoard {
-    protected ArrayList<Shape> listOfShapes;
+    protected LinkedList<Shape> listOfShapes;
     protected float[] color;
 
+
+    protected DrawingBoard() {
+        listOfShapes = new LinkedList<Shape>();
+    }
 
     public void drawShapes() {
         if (listOfShapes != null) {
@@ -25,11 +29,14 @@ public abstract class DrawingBoard {
     abstract protected void drawShape(Shape s);
 
     final public void addShape(Shape s) {
+
         listOfShapes.add(s);
+        drawShapes();
     }
 
     final public void removeShape(Shape s) {
         listOfShapes.remove(s);
+        drawShapes();
     }
 
 }

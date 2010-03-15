@@ -23,10 +23,12 @@ public class DrawingBoardJava2D extends DrawingBoard {
     private final int RENDER_MODE = 1;
 
     public DrawingBoardJava2D() {
+        super();
     }
 
     public void setGraphics(Graphics g) {
         graphics2dObj = (Graphics2D) g;
+        g.setColor(Color.black);
     }
 
     /**
@@ -35,6 +37,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
      * @param s The Shape to draw
      */
     protected void drawShape(Shape s) {
+        System.out.println("Drawing Shape: " + s.getClass().getName());
 
         LinkedList<Point> listOfPoints = s.getListOfPoints();
 
