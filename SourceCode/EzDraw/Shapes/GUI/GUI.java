@@ -40,13 +40,15 @@ public class GUI extends JFrame {
         menuBar.add(fileMenu);
         menuBar.add(drawMenu);
 
+        this.add(new Canvas());
+
 
     }
 
     public static void main(String[] a) {
         GUI window = new GUI();
         window.setBounds(30, 30, 300, 300); // Size
-        window.setTitle("EzDraw 1.0");
+        window.setTitle("EzDraw 0.1");
         window.setVisible(true);
     }
 }

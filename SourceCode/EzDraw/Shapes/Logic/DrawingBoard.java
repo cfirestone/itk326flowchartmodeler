@@ -14,9 +14,11 @@ public abstract class DrawingBoard {
     protected float[] color;
 
 
-    final public void drawShapes() {
-        for (int i = 0; i < listOfShapes.size(); i++) {
-            drawShape(listOfShapes.get(i));
+    public void drawShapes() {
+        if (listOfShapes != null) {
+            for (int i = 0; i < listOfShapes.size(); i++) {
+                drawShape(listOfShapes.get(i));
+            }
         }
     }
 
