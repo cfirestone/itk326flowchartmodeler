@@ -54,6 +54,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
                 Point p = listOfPoints.get(i);
                 poly.addPoint((int) p.getX(), (int) p.getY());
             }
+
             graphics2dObj.draw(poly);
 
             if (s instanceof TextBox) {
