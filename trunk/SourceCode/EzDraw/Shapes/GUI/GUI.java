@@ -11,18 +11,23 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame implements ActionListener, ItemListener {
     private JMenuBar menuBar = new JMenuBar(); // Window menu bar
     private JMenuItem newItem, openItem, closeItem, saveItem, saveAsItem, printItem, exitItem,
-            lineItem, rectItem, circleItem, textboxItem;
+            lineItem, rectItem, circleItem, textboxItem, selectItem;
+    private Canvas canvas;
 
     public GUI() {
         this.setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setJMenuBar(menuBar);
         JMenu fileMenu = new JMenu("File");
-        JMenu drawMenu = new JMenu("Draw");
+        JMenu toolMenu = new JMenu("Tool");
         newItem = fileMenu.add("New");
         openItem = fileMenu.add("Open");
         closeItem = fileMenu.add("Close");
@@ -33,16 +38,52 @@ public class GUI extends JFrame {
         printItem = fileMenu.add("Print");
         fileMenu.addSeparator();
         exitItem = fileMenu.add("Exit");
-        drawMenu.add(lineItem = new JMenuItem("Line"));
-        drawMenu.add(rectItem = new JMenuItem("Rectangle"));
-        drawMenu.add(circleItem = new JMenuItem("Circle"));
-        drawMenu.add(textboxItem = new JMenuItem("Textbox"));
+        toolMenu.add(lineItem = new JMenuItem("Draw Line"));
+        toolMenu.add(rectItem = new JMenuItem("Draw Rectangle"));
+        toolMenu.add(circleItem = new JMenuItem("Draw Circle"));
+        toolMenu.add(textboxItem = new JMenuItem("Draw Textbox"));
+        toolMenu.add(selectItem = new JMenuItem("Select Tool"));
         menuBar.add(fileMenu);
-        menuBar.add(drawMenu);
+        menuBar.add(toolMenu);
 
-        this.add(new Canvas());
+        canvas = new Canvas();
+        this.add(canvas);
 
+        lineItem.addActionListener(this);
+        rectItem.addActionListener(this);
+        circleItem.addActionListener(this);
+        textboxItem.addActionListener(this);
+        selectItem.addActionListener(this);
 
+    }
+
+    public void itemStateChanged(ItemEvent e) {
+        JMenuItem source = (JMenuItem) (e.getSource());
+        System.out.println(source.getText());
+
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        JMenuItem source = (JMenuItem) (e.getSource());
+        if (source.getText().equals("Draw Line")) {
+            canvas.setCurrentTool(ToolType.DRAW_LINE);
+        } else if (source.getText().equals("Draw Textbox")) {
+            canvas.setCurrentTool(ToolType.DRAW_TEXTBOX);
+        } else if (source.getText().equals("Draw Circle")) {
+            canvas.setCurrentTool(ToolType.DRAW_CIRCLE);
+        } else if (source.getText().equals("Draw Rectangle")) {
+            canvas.setCurrentTool(ToolType.DRAW_RECTANGLE);
+        } else if (source.getText().equals("Select Tool")) {
+            canvas.setCurrentTool(ToolType.SELECT);
+        }
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
     }
 
     public static void main(String[] a) {
@@ -52,3 +93,4 @@ public class GUI extends JFrame {
         window.setVisible(true);
     }
 }
+
