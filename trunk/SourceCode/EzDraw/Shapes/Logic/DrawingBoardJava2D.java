@@ -22,8 +22,11 @@ public class DrawingBoardJava2D extends DrawingBoard {
     // RENDER_MODE = 1 --> Fill
     private final int RENDER_MODE = 1;
 
-    public DrawingBoardJava2D(Graphics gObj) {
-        graphics2dObj = (Graphics2D) gObj.create();
+    public DrawingBoardJava2D() {
+    }
+
+    public void setGraphics(Graphics g) {
+        graphics2dObj = (Graphics2D) g;
     }
 
     /**
