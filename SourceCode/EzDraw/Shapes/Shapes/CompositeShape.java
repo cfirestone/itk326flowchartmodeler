@@ -90,6 +90,8 @@ public class CompositeShape extends Shape {
         if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
 
+        listOfPoints.clear();
+
         Point topRight = new Point(startPoint.getY(), endPoint.getX());
         Point bottomLeft = new Point(endPoint.getY(), startPoint.getX());
 

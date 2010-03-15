@@ -24,6 +24,8 @@ public class Rectangle extends SimpleShape {
         if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
 
+        listOfPoints.clear();
+
         Point topRight = new Point(endPoint.getX(), startPoint.getY());
         Point bottomLeft = new Point(startPoint.getX(), endPoint.getY());
 

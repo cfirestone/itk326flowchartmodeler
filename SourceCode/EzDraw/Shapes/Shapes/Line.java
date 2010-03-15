@@ -21,6 +21,8 @@ public class Line extends SimpleShape {
         if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
 
+        listOfPoints.clear();
+
         listOfPoints.add(startPoint);
         listOfPoints.add(endPoint);
     }
