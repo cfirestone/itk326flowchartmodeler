@@ -12,9 +12,12 @@ import java.util.LinkedList;
 public class CompositeShape extends Shape {
     private LinkedList<Shape> m_ChildShapes;
 
-    /**
-     * Default constructor
-     */
+   /**
+    * Describes how to draw a composite shape
+    *
+    * @author Justin Blakley & Carl Firestone
+    * @version 1.0.0.0
+    */
     public CompositeShape(Point p1, Point p2)
     {
         super(p1, p2);
@@ -50,19 +53,33 @@ public class CompositeShape extends Shape {
         double smallx = -1, smally = -1;
 
         for (int i = 0; i < m_ChildShapes.size(); i++) {
-            if (m_ChildShapes.get(i).getXPosition() < smallx || smallx < 0)
-                smallx = m_ChildShapes.get(i).getXPosition();
-            if (m_ChildShapes.get(i).getYPosition() < smally || smally < 0)
-                smally = m_ChildShapes.get(i).getYPosition();
-            if (m_ChildShapes.get(i).getXDimension() + m_ChildShapes.get(i).getXPosition() > largex || largex < 0)
-                largex = m_ChildShapes.get(i).getXDimension() + m_ChildShapes.get(i).getXPosition();
-            if (m_ChildShapes.get(i).getYDimension() + m_ChildShapes.get(i).getYPosition() > largey || largey < 0)
-                largey = m_ChildShapes.get(i).getYDimension() + m_ChildShapes.get(i).getYPosition();
+
+            double startX = m_ChildShapes.get(i).getStartPoint().getX();
+            double endX = m_ChildShapes.get(i).getEndPoint().getX();
+            double startY = m_ChildShapes.get(i).getStartPoint().getY();
+            double endY = m_ChildShapes.get(i).getEndPoint().getY();
+
+            if (startX < smallx || smallx < 0)
+                smallx = startX;
+            if (endX < smallx || smallx < 0)
+                smallx = endX;
+            if (startY < smally || smally < 0)
+                smally = startY;
+            if (endY < smally || smally < 0)
+                smally = startY;
+            if (endX > largex || largex < 0)
+                largex = endX;
+            if (startX > largex || largex < 0)
+                largex = startX;
+            if (endY > largey || largey < 0)
+                largey = endY;
+            if (startY > largey || largey < 0)
+                largey = startY;
         }
 
         //offset by .5 to make a "boarder"
-        setCoordinates(smallx - .5, smally - .5);
-        setDimensions((largex - smallx) + 1.0, (largey - smally) + 1.0);
+        startPoint = new Point((smally - .5),(smallx - .5));
+        endPoint = new Point(largey + .5, largex + .5);
 
         calculatePoints();
     }
@@ -74,14 +91,12 @@ public class CompositeShape extends Shape {
         if(listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
 
-        Point topLeft = new Point(m_PositionY, m_PositionX);
-        Point topRight = new Point(m_PositionY,(m_PositionX + m_DimensionX));
-        Point bottomRight = new Point((m_PositionY + m_DimensionY),(m_PositionX + m_DimensionX));
-        Point bottomLeft = new Point((m_PositionY + m_DimensionY), m_PositionX);
+        Point topRight = new Point(startPoint.getY(),endPoint.getX());
+        Point bottomLeft = new Point(endPoint.getY(), startPoint.getX());
 
-        listOfPoints.add(topLeft);
+        listOfPoints.add(startPoint);
         listOfPoints.add(topRight);
-        listOfPoints.add(bottomRight);
+        listOfPoints.add(endPoint);
         listOfPoints.add(bottomLeft);
       
         for(int i = 0; i < m_ChildShapes.size(); i++)

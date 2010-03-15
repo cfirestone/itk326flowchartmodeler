@@ -10,66 +10,56 @@ package Shapes;
 import java.util.LinkedList;
 
 public abstract class Shape {
-    protected double m_PositionX;
-    protected double m_PositionY;
-    protected double m_DimensionX;
-    protected double m_DimensionY;
-    //Changed private to protected
+    protected Point startPoint, endPoint;
     protected LinkedList<Point> listOfPoints;
     protected IAttachable m_AttachmentStrategy;
 
     /**
      * Base Constructor for all other shapes
-     * @param - The starting point (upper left corner of bounding rectangle)
-     * @param - The ending point (lower right corner of bounding rectangle)
+     * @param p1 The starting point (upper left corner of bounding rectangle)
+     * @param p2 The ending point (lower right corner of bounding rectangle)
      */
     public Shape(Point p1, Point p2){
-        m_PositionX = p1.getX();
-        m_PositionY = p1.getY();
-        m_DimensionX = Math.abs(m_PositionX - p2.getX());
-        m_DimensionY = Math.abs(m_PositionY - p2.getY());
+        startPoint = p1;
+        endPoint = p2;
 
         calculatePoints();
     }
+
     /**
      * Calculates the points needed to draw the shape
      */
     public abstract void calculatePoints();
 
     /**
-     * Gets the dimension in the x direction
-     *
-     * @return The value of the shape's dimension in the x direction
+     * Returns the start point
+     * @return  The start Point
      */
-    protected double getXDimension() {
-        return m_DimensionX;
+    public Point getStartPoint(){
+        return startPoint;
     }
 
     /**
-     * Gets the dimension in the y direction
-     *
-     * @return The value of the shape's dimension in the y direction
+     * Returns the end point
      */
-    protected double getYDimension() {
-        return m_DimensionY;
+    public Point getEndPoint(){
+        return endPoint;
     }
 
     /**
-     * Gets the position in the x axis
-     *
-     * @return The value of the x coordinate of the shape
+     * Sets the starting point of the shape
+     * @param p The point to set the start point
      */
-    protected double getXPosition() {
-        return m_PositionX;
+    public void setStartPoint(Point p){
+        startPoint = p;
     }
 
     /**
-     * Get the position in the y axis
-     *
-     * @return The value of the y coordiante of the shape
+     * Sets the end point
+     * @param p The point to set the end point
      */
-    protected double getYPosition() {
-        return m_PositionY;
+    public void setEndPoint(Point p){
+        endPoint = p;
     }
 
     /**
@@ -77,7 +67,9 @@ public abstract class Shape {
      */
     public void drawAttachmentSections() {
         double[] sections =
-                m_AttachmentStrategy.calculateAttachmentPoints(m_PositionX, m_PositionY, m_DimensionX, m_DimensionY);
+                m_AttachmentStrategy.calculateAttachmentPoints(startPoint.getX(), startPoint.getY(),
+                         Math.abs((endPoint.getX()-startPoint.getX())),
+                         Math.abs((endPoint.getY()-startPoint.getY())));
 
         /*
         * use graphics package to render snap points
@@ -91,28 +83,6 @@ public abstract class Shape {
                     + sections[i + 2] + " Y: " + sections[i + 3]);
         }
         System.out.println("End Snap Points" + eol);
-    }
-
-    /**
-     * Set the coordinates of the shape
-     *
-     * @param x The coordinate in the x direction
-     * @param y The coordinate in the y direction
-     */
-    public void setCoordinates(double x, double y) {
-        m_PositionX = x;
-        m_PositionY = y;
-    }
-
-    /**
-     * Set the Dimensions of the shape
-     *
-     * @param x The dimension in the x direction
-     * @param y The dimension in the y direction
-     */
-    public void setDimensions(double x, double y) {
-        m_DimensionX = x;
-        m_DimensionY = y;
     }
 
     /**

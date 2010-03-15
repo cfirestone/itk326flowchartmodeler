@@ -24,14 +24,12 @@ public class Rectangle extends SimpleShape {
         if(listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
 
-        Point topLeft = new Point(m_PositionY, m_PositionX);
-        Point topRight = new Point(m_PositionY,(m_PositionX + m_DimensionX));
-        Point bottomRight = new Point((m_PositionY + m_DimensionY),(m_PositionX + m_DimensionX));
-        Point bottomLeft = new Point((m_PositionY + m_DimensionY), m_PositionX);
+        Point topRight = new Point(startPoint.getY(), endPoint.getX());
+        Point bottomLeft = new Point(endPoint.getY(), startPoint.getX());
 
-        listOfPoints.add(topLeft);
+        listOfPoints.add(startPoint);
         listOfPoints.add(topRight);
-        listOfPoints.add(bottomRight);
+        listOfPoints.add(endPoint);
         listOfPoints.add(bottomLeft);
     }
 }

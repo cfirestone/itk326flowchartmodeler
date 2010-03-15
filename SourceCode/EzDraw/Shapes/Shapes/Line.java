@@ -21,10 +21,7 @@ public class Line extends SimpleShape {
         if(listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
 
-        Point start = new Point(m_PositionY, m_PositionX);
-        Point end = new Point((m_PositionY + m_DimensionY),(m_PositionX + m_DimensionX));
-
-        listOfPoints.add(start);
-        listOfPoints.add(end);
+        listOfPoints.add(startPoint);
+        listOfPoints.add(endPoint);
     }
 }
