@@ -2,6 +2,7 @@ package Logic;
 
 import Shapes.*;
 import Shapes.Point;
+import Shapes.Rectangle;
 import Shapes.Shape;
 
 import java.awt.*;
@@ -18,9 +19,6 @@ public class DrawingBoardJava2D extends DrawingBoard {
     private Graphics2D g2;
 
 
-    // RENDER_MODE = 0 --> No Fill
-    // RENDER_MODE = 1 --> Fill
-    private final int RENDER_MODE = 1;
 
     public DrawingBoardJava2D() {
         super();
@@ -50,11 +48,9 @@ public class DrawingBoardJava2D extends DrawingBoard {
             }
         } else {
             Polygon poly = new Polygon();
-            for (int i = 0; i < listOfPoints.size(); i++) {
-                Point p = listOfPoints.get(i);
+            for (Point p : listOfPoints) {
                 poly.addPoint((int) p.getX(), (int) p.getY());
             }
-
 
             g2.setColor(new Color(240, 240, 240));
             g2.fill(poly);
@@ -69,8 +65,8 @@ public class DrawingBoardJava2D extends DrawingBoard {
             }
             if (s instanceof CompositeShape) {
                 LinkedList<Shape> listOfShapes = ((CompositeShape) s).getListOfShapes();
-                for (int i = 0; i < listOfShapes.size(); i++) {
-                    drawShape(listOfShapes.get(i));
+                for (Shape listOfShape : listOfShapes) {
+                    drawShape(listOfShape);
                 }
             }
         }
@@ -99,6 +95,15 @@ public class DrawingBoardJava2D extends DrawingBoard {
             }
         }
         return foundShape;
+    }
+    /**
+     * Draws a shape on the DB, but will not add a shape to the list
+     * so this shape will not be re-drawn when the whole canvas updates.
+     */
+    public void drawTempShape(Shape shape){
+        if(shape != null){
+            drawShape(shape);
+        }
     }
 
 

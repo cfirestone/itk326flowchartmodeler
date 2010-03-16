@@ -1,6 +1,8 @@
 package Logic;
 
+import Shapes.Point;
 import Shapes.Shape;
+import Shapes.ShapeEnum;
 
 import java.util.LinkedList;
 
@@ -42,5 +44,7 @@ public abstract class DrawingBoard {
     final public void clearAllShapes() {
         listOfShapes.clear();
     }
+
+    abstract public void drawTempShape(Shape shape);
 
 }
