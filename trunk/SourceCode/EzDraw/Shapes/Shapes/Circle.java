@@ -1,9 +1,10 @@
 package Shapes;
 
 import java.util.LinkedList;
-/*
- * This is a small change
+/**
+ * small Change again
  */
+
 /**
  * Represents a geometric Circle
  *
@@ -37,7 +38,7 @@ public class Circle extends SimpleShape {
         }
 
         //This is so the dimensions of the actual shape are correct
-        double newStartX = startPoint.getX() - radius;
+        /*double newStartX = startPoint.getX() - radius;
         double newStartY = startPoint.getY() - radius;
         double newEndX = startPoint.getX() + radius;
         double newEndY = startPoint.getY() + radius;
@@ -45,7 +46,8 @@ public class Circle extends SimpleShape {
         startPoint.setX(newStartX);
         startPoint.setY(newStartY);
         endPoint.setX(newEndX);
-        endPoint.setY(newEndY);        
+        endPoint.setY(newEndY);
+        */
     }
 
     /**

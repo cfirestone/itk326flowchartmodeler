@@ -43,4 +43,6 @@ public abstract class DrawingBoard {
         listOfShapes.clear();
     }
 
+    abstract public void drawTempShape(Shape shape);
+
 }
