@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 
 import java.util.LinkedList;
@@ -10,11 +14,10 @@ import java.util.LinkedList;
  */
 public class Main {
     public static void main(String args[]) {
-        Shape s = new Rectangle(new Point(5,5), new Point (55, 105));
+        Shape s = new Rectangle(new Point(5, 5), new Point(55, 105));
         LinkedList<Point> pts = s.getListOfPoints();
-        for(int i= 0; i < pts.size(); i++)
-        {
-            System.out.println( pts.get(i).toString());
+        for (int i = 0; i < pts.size(); i++) {
+            System.out.println(pts.get(i).toString());
         }
         /*Shape a = new Circle();
         a.setCoordinates(200, 50);

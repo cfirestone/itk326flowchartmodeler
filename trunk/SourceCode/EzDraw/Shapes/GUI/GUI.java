@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package GUI;
 
 
@@ -17,32 +21,36 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class GUI extends JFrame implements ActionListener, ItemListener {
-    private JMenuBar menuBar = new JMenuBar(); // Window menu bar
-    private JMenuItem newItem, openItem, closeItem, saveItem, saveAsItem, printItem, exitItem,
-            lineItem, rectItem, circleItem, textboxItem, selectItem, clearItem;
     private Canvas canvas;
 
     public GUI() {
+        JMenuBar menuBar = new JMenuBar();
         this.setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setJMenuBar(menuBar);
         JMenu fileMenu = new JMenu("File");
         JMenu toolMenu = new JMenu("Tool");
-        newItem = fileMenu.add("New");
-        openItem = fileMenu.add("Open");
-        closeItem = fileMenu.add("Close");
+        JMenuItem newItem = fileMenu.add("New");
+        JMenuItem openItem = fileMenu.add("Open");
+        JMenuItem closeItem = fileMenu.add("Close");
         fileMenu.addSeparator();
-        saveItem = fileMenu.add("Save");
-        saveAsItem = fileMenu.add("Save As...");
+        JMenuItem saveItem = fileMenu.add("Save");
+        JMenuItem saveAsItem = fileMenu.add("Save As...");
         fileMenu.addSeparator();
-        printItem = fileMenu.add("Print");
+        JMenuItem printItem = fileMenu.add("Print");
         fileMenu.addSeparator();
-        exitItem = fileMenu.add("Exit");
+        JMenuItem exitItem = fileMenu.add("Exit");
+        JMenuItem lineItem;
         toolMenu.add(lineItem = new JMenuItem("Draw Line"));
+        JMenuItem rectItem;
         toolMenu.add(rectItem = new JMenuItem("Draw Rectangle"));
+        JMenuItem circleItem;
         toolMenu.add(circleItem = new JMenuItem("Draw Circle"));
+        JMenuItem textboxItem;
         toolMenu.add(textboxItem = new JMenuItem("Draw Textbox"));
+        JMenuItem selectItem;
         toolMenu.add(selectItem = new JMenuItem("Select Tool"));
+        JMenuItem clearItem;
         toolMenu.add(clearItem = new JMenuItem("Clear All"));
         menuBar.add(fileMenu);
         menuBar.add(toolMenu);

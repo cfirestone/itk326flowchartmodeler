@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package GUI;
 
 import Logic.DrawingBoard;
@@ -21,9 +25,11 @@ import java.awt.event.MouseMotionListener;
  */
 public class Canvas extends JPanel implements MouseListener, MouseMotionListener {
 
-    protected DrawingBoard db;
-    protected Shapes.Point startPoint, endPoint, currPoint;
-    protected boolean mouseDown;
+    private DrawingBoard db;
+    private Shapes.Point startPoint;
+    private Shapes.Point endPoint;
+    protected Shapes.Point currPoint;
+    private boolean mouseDown;
     private ToolType currentTool;
     private RightClickMenu popup;
 
@@ -128,11 +134,11 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         getDb().drawShapes();
     }
 
-    public DrawingBoard getDb() {
+    DrawingBoard getDb() {
         return db;
     }
 
-    public void setDb(DrawingBoard db) {
+    void setDb(DrawingBoard db) {
         this.db = db;
     }
 
