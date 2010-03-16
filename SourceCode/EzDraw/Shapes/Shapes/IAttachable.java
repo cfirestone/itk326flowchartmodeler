@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 
 /**
@@ -16,6 +20,7 @@ public interface IAttachable {
      * @param y    The y-Coordinate
      * @param dimX The x-based dimension
      * @param dimY The y-based dimension
+     *
      * @return The base 4 indexed array of data used to create the snap points
      */
     double[] calculateAttachmentPoints(double x, double y, double dimX, double dimY);

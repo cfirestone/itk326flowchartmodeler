@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 
 import java.util.LinkedList;
@@ -14,9 +18,7 @@ public class Line extends SimpleShape {
         m_AttachmentStrategy = new AttachNone();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public void calculatePoints() {
         if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();

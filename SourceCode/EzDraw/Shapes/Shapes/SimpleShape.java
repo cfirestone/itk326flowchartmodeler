@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 
 /**
@@ -7,8 +11,7 @@ package Shapes;
  * @version 1.0.0.0
  */
 public abstract class SimpleShape extends Shape {
-    public SimpleShape(Point p1, Point p2)
-    {
-        super(p1,p2);
+    public SimpleShape(Point p1, Point p2) {
+        super(p1, p2);
     }
 }

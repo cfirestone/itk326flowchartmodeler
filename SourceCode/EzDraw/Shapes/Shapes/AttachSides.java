@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 
 /**
@@ -7,9 +11,7 @@ package Shapes;
  * @version 1.0.0.0
  */
 public class AttachSides implements IAttachable {
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public double[] calculateAttachmentPoints(double x, double y, double dimX, double dimY) {
         double[] positions = new double[16];
 

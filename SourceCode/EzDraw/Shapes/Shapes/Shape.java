@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 /**
  * Contains all top level information on
@@ -27,9 +31,7 @@ public abstract class Shape {
         calculatePoints();
     }
 
-    /**
-     * Calculates the points needed to draw the shape
-     */
+    /** Calculates the points needed to draw the shape */
     public abstract void calculatePoints();
 
     /**
@@ -41,9 +43,7 @@ public abstract class Shape {
         return startPoint;
     }
 
-    /**
-     * Returns the end point
-     */
+    /** Returns the end point */
     public Point getEndPoint() {
         return endPoint;
     }
@@ -66,9 +66,7 @@ public abstract class Shape {
         endPoint = p;
     }
 
-    /**
-     * Calls the IAttachable to calculate snap points
-     */
+    /** Calls the IAttachable to calculate snap points */
     public void drawAttachmentSections() {
         double[] sections =
                 m_AttachmentStrategy.calculateAttachmentPoints(startPoint.getX(), startPoint.getY(),

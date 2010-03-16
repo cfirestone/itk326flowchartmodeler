@@ -1,9 +1,10 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 
 import java.util.LinkedList;
-/**
- * small Change again
- */
 
 /**
  * Represents a geometric Circle
@@ -20,9 +21,7 @@ public class Circle extends SimpleShape {
         m_AttachmentStrategy = new AttachSides();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public void calculatePoints() {
         if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();

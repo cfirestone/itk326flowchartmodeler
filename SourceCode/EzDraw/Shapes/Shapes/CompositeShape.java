@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010. Justin Blakley and Carl Firestone
+ */
+
 package Shapes;
 /**
  * Defines a shape of shapes
@@ -44,9 +48,7 @@ public class CompositeShape extends Shape {
         setDimensions();
     }
 
-    /**
-     * Calculates and sets the dimension base on its children
-     */
+    /** Calculates and sets the dimension base on its children */
     public void setDimensions() {
         double largex = -1, largey = -1;
         double smallx = -1, smally = -1;
@@ -83,9 +85,7 @@ public class CompositeShape extends Shape {
         calculatePoints();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public void calculatePoints() {
         if (listOfPoints == null)
             listOfPoints = new LinkedList<Point>();
