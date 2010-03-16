@@ -79,8 +79,8 @@ public class CompositeShape extends Shape {
         }
 
         //offset by .5 to make a "boarder"
-        startPoint = new Point((smally - .5), (smallx - .5));
-        endPoint = new Point(largey + .5, largex + .5);
+        startPoint = new Point((smallx - 5), (smally - 5));
+        endPoint = new Point(largex + 5, largey + 5);
 
         calculatePoints();
     }
@@ -92,17 +92,18 @@ public class CompositeShape extends Shape {
 
         listOfPoints.clear();
 
-        Point topRight = new Point(startPoint.getY(), endPoint.getX());
-        Point bottomLeft = new Point(endPoint.getY(), startPoint.getX());
+        Point topRight = new Point(startPoint.getX(), endPoint.getY());
+        Point bottomLeft = new Point(endPoint.getX(), startPoint.getY());
 
         listOfPoints.add(startPoint);
         listOfPoints.add(topRight);
         listOfPoints.add(endPoint);
         listOfPoints.add(bottomLeft);
 
-        for (int i = 0; i < m_ChildShapes.size(); i++) {
-            m_ChildShapes.get(i).calculatePoints();
-        }
+        /**
+         * @Deprecated
+         * Calling calculatePoints for all children is not needed and causes adverse effects
+         */
     }
 
     public boolean containsPoint(Point point) {
