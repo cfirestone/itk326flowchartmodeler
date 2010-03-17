@@ -4,6 +4,7 @@
 
 package Logic;
 
+import Shapes.Point;
 import Shapes.Shape;
 
 import java.util.LinkedList;
@@ -48,5 +49,7 @@ public abstract class DrawingBoard {
     }
 
     abstract public void drawTempShape(Shape shape);
+
+    abstract public Shape getShape(Point point);
 
 }

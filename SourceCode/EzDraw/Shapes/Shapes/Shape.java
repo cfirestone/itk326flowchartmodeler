@@ -107,4 +107,12 @@ public abstract class Shape {
 
     abstract public boolean containsPoint(Point p);
 
+    final public void translateBy(double x, double y) {
+        startPoint.setX(startPoint.getX() + x);
+        startPoint.setY(startPoint.getY() + y);
+        endPoint.setX(endPoint.getX() + x);
+        endPoint.setY(endPoint.getY() + y);
+        calculatePoints();
+    }
+
 }
