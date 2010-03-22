@@ -17,6 +17,10 @@ import java.util.LinkedList;
 public abstract class DataIO {
     protected String connectionString;
 
+    public void changeConnectionString(String newConnString){
+        connectionString = newConnString;
+    }
+    
     public abstract LinkedList<Shape> getData();
     public abstract boolean saveData(LinkedList<Shape> shapes);
 }
