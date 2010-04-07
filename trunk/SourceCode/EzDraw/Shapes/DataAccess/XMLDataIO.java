@@ -4,13 +4,14 @@
 
 package DataAccess;
 
-import Shapes.Shape;
+import Shapes.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -50,7 +51,24 @@ public class XMLDataIO extends DataIO{
         }
     }
 
-    private void getElementsFromDocument(){
-        //Element
+    private LinkedList<Circle> getCirclesFromDocument(){
+        //use XPath to get the Circle elements in the document
+        return null;
+    }
+
+    private LinkedList<Rectangle> getRectanglesFromDocument(){
+        //use XPath to get the Rectangle elements in the document
+        //check the tag metadata to see if this rectangle is a text box
+        return null;
+    }
+
+    private LinkedList<Line> getLinesFromDocument(){
+        //use XPath to get the Line elements in the document
+        return null;
+    }
+
+    private String getNestedDiagram(){
+        //check the current element for metadata which points to the nested diagram
+        return "";
     }
 }

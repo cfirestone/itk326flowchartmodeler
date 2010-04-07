@@ -17,6 +17,11 @@ public abstract class Shape {
     protected Point startPoint, endPoint;
     protected LinkedList<Point> listOfPoints;
     protected IAttachable m_AttachmentStrategy;
+    protected float rFillColor, gFillColor, bFillColor;
+    protected float rBorderColor, gBorderColor, bBorderColor;
+
+    /*TODO Changes must be documented*/
+    protected String nestedDiagramURL;
 
     /**
      * Base Constructor for all other shapes
@@ -33,6 +38,7 @@ public abstract class Shape {
 
     /** Calculates the points needed to draw the shape */
     public abstract void calculatePoints();
+
 
     /**
      * Returns the start point
@@ -115,4 +121,103 @@ public abstract class Shape {
         calculatePoints();
     }
 
+    /**
+     * Gets the string URL for the nested diagram
+     *
+     * @return The string representing the Path to the nested Diagram
+     */
+    final public String getNestedDiagramURL()
+    {
+        return this.nestedDiagramURL;
+    }
+
+    /**
+     * Sets the string URL for the nested diagram
+     *
+     *  @param s The string representing the Path to the nested Diagram
+     */
+    final public void setNestedDiagramURL(String s)
+    {
+        this.nestedDiagramURL = s;
+    }
+
+    /**
+     * Sets the colors of the shapes border
+     *
+     * @param c the array of colors to set
+     */
+    final public void setBorderColors(float[] c)
+    {
+        rBorderColor = c[0];
+        gBorderColor = c[1];
+        bBorderColor = c[2];
+    }
+
+    /**
+     * Sets the colors of the shapes border
+     *
+     * @param r the red component of colors to set
+     * @param g the green component of colors to set
+     * @param b the blue component of colors to set
+     */
+    final public void setBorderColors(float r, float g, float b)
+    {
+        rBorderColor = r;
+        gBorderColor = g;
+        bBorderColor = b;
+    }
+
+    /**
+     * Gets the colors of the shapes border
+     *
+     * @return The array containing the shapes border colors
+     */
+    final public float[] getBorderColors()
+    {
+        float[] c = new float[3];
+        c[0] = rBorderColor;
+        c[1] = gBorderColor;
+        c[2] = bBorderColor;
+        return c;
+    }
+
+    /**
+     * Sets the colors of the shapes fill
+     *
+     * @param c the array of colors to set
+     */
+    final public void setFillColors(float[] c)
+    {
+        rFillColor = c[0];
+        gFillColor = c[1];
+        bFillColor = c[2];
+    }
+
+    /**
+     * Sets the colors of the shapes fill
+     *
+     * @param r the red component of colors to set
+     * @param g the green component of colors to set
+     * @param b the blue component of colors to set
+     */
+    final public void setFillColors(float r, float g, float b)
+    {
+        rFillColor = r;
+        gFillColor = g;
+        bFillColor = b;
+    }
+
+    /**
+     * Gets the colors of the shapes Fill
+     *
+     * @return The array containing the shapes Fill colors
+     */
+    final public float[] getFillColors()
+    {
+        float[] c = new float[3];
+        c[0] = rFillColor;
+        c[1] = gFillColor;
+        c[2] = bFillColor;
+        return c;
+    }
 }
