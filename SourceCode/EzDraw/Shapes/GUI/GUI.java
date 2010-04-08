@@ -148,7 +148,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         int returnVal = fc.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = fc.getSelectedFile().getAbsolutePath();
-            canvas.save(path);
+            //canvas.(path);
         }
     }
 
