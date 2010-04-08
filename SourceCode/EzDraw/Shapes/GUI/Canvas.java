@@ -14,6 +14,7 @@ import Shapes.TextBox;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 
 /**
@@ -88,6 +89,16 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         db.clearAllShapes();
     }
 
+    public void open(File f)
+    {
+        db.open(f);
+        update(getGraphics());
+    }
+    public void open(String path)
+    {    
+        db.open(path);
+        update(getGraphics());
+    }
     private boolean isLButtonDown(MouseEvent e) {
         return (e.getModifiers() & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK;
     }
