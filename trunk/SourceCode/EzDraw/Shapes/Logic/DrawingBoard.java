@@ -4,9 +4,11 @@
 
 package Logic;
 
+import DataAccess.XMLDataIO;
 import Shapes.Point;
 import Shapes.Shape;
 
+import java.io.File;
 import java.util.LinkedList;
 
 /**
@@ -57,6 +59,18 @@ public abstract class DrawingBoard {
 
     abstract public Shape getShape(Point point);
 
+    public void open(File f)
+    {
+
+    }
+
+    public void open(String path)
+    {
+        XMLDataIO dataIO = new XMLDataIO(path);
+        listOfShapes = dataIO.getData();        
+        updateStateManager();
+        drawShapes();
+    }
 
     protected void updateStateManager() {
         stateManager.newState((LinkedList<Shape>) listOfShapes.clone());

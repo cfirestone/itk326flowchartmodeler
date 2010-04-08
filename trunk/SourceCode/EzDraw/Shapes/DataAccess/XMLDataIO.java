@@ -30,17 +30,19 @@ public class XMLDataIO extends DataIO{
     }
     @Override
     public LinkedList<Shape> getData() {
+        LinkedList<Shape> data = new LinkedList<Shape>();
+
         loadXMLFile();
         try {
-            getCirclesFromDocument();
-            getRectanglesFromDocument();
-            getLinesFromDocument();
+            data.addAll(getCirclesFromDocument());
+            data.addAll(getRectanglesFromDocument());
+            data.addAll(getLinesFromDocument());
         }
         catch (XPathExpressionException e) {
             System.out.println("Could not read parse XML Document");
             e.printStackTrace();  
         }
-        return null;
+        return data;
     }
 
     @Override
@@ -64,15 +66,12 @@ public class XMLDataIO extends DataIO{
     }
 
     private LinkedList<Circle> getCirclesFromDocument() throws XPathExpressionException {
-        LinkedList<Circle> circles = null;
+        LinkedList<Circle> circles = new LinkedList<Circle>();
 
         NodeList nodes = getNodeList("//circle");
         Circle circle;
         for(int i = 0; i < nodes.getLength(); i++)
         {
-            if(circles == null)
-                circles = new LinkedList<Circle>();
-
             int x = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("cx").getNodeValue());
             int y = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("cy").getNodeValue());
             int r = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("r").getNodeValue());
@@ -92,15 +91,12 @@ public class XMLDataIO extends DataIO{
     }
 
     private LinkedList<Rectangle> getRectanglesFromDocument() throws XPathExpressionException {
-        LinkedList<Rectangle> rects = null;
+        LinkedList<Rectangle> rects = new LinkedList<Rectangle>();
 
         NodeList nodes = getNodeList("//rect");
         Rectangle rect;
         for(int i = 0; i < nodes.getLength(); i++)
         {
-            if(rects == null)
-                rects = new LinkedList<Rectangle>();
-
             int x = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x").getNodeValue());
             int y = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("y").getNodeValue());
             int width = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("width").getNodeValue());
@@ -130,15 +126,12 @@ public class XMLDataIO extends DataIO{
     }
 
     private LinkedList<Line> getLinesFromDocument() throws XPathExpressionException {
-        LinkedList<Line> lines = null;
+        LinkedList<Line> lines = new LinkedList<Line>();
 
         NodeList nodes = getNodeList("//line");
         Line line;
         for(int i = 0; i < nodes.getLength(); i++)
         {
-            if(lines == null)
-                lines = new LinkedList<Line>();
-
             //TODO check the actual query string for line
             int sx = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("sx").getNodeValue());
             int sy = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("sy").getNodeValue());
