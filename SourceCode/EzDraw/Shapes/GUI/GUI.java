@@ -14,8 +14,10 @@ package GUI;
  */
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class GUI extends JFrame implements ActionListener, ItemListener {
     private Canvas canvas;
@@ -62,6 +64,11 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         canvas = new Canvas();
         this.add(canvas);
 
+        newItem.addActionListener(this);
+        openItem.addActionListener(this);
+        saveItem.addActionListener(this);
+
+
         lineItem.addActionListener(this);
         rectItem.addActionListener(this);
         circleItem.addActionListener(this);
@@ -82,7 +89,17 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
 
     public void actionPerformed(ActionEvent e) {
         JMenuItem source = (JMenuItem) (e.getSource());
-        if (source.getText().equals("Draw Line")) {
+        if (source.getText().equals("New")) {
+            //TODO check if saved
+            int n = JOptionPane.showConfirmDialog(null, "Save?", "Save?", JOptionPane.YES_NO_OPTION);
+            if (n == JOptionPane.YES_OPTION) {
+                saveCurrent();
+            }
+        } else if (source.getText().equals("Open")) {
+            open();
+        } else if (source.getText().equals("Save")) {
+            saveCurrent();
+        } else if (source.getText().equals("Draw Line")) {
             canvas.setCurrentTool(ToolType.DRAW_LINE);
         } else if (source.getText().equals("Draw Textbox")) {
             canvas.setCurrentTool(ToolType.DRAW_TEXTBOX);
@@ -124,11 +141,59 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         dialog.show();
     }
 
+    private void saveCurrent() {
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setFileFilter(new SVGFileFilter());
+        int returnVal = fc.showSaveDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String path = fc.getSelectedFile().getAbsolutePath();
+            canvas.save(path);
+        }
+    }
+
+    private void open() {
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setFileFilter(new SVGFileFilter());
+        int returnVal = fc.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String path = fc.getSelectedFile().getAbsolutePath();
+            canvas.open(path);
+            System.out.println(path);
+        }
+    }
+
     public static void main(String[] a) {
         GUI window = new GUI();
         window.setBounds(30, 30, 500, 500); // Size
         window.setTitle("EzDraw 0.1");
         window.setVisible(true);
+    }
+
+    protected class SVGFileFilter extends FileFilter {
+
+        @Override
+        public boolean accept(File f) {
+            boolean accepted = false;
+            String path = f.getAbsolutePath();
+            int dotLoc = path.lastIndexOf('.');
+
+            if (dotLoc < 0 && f.isDirectory()) {
+                accepted = true;
+            } else {
+                String ext = path.substring(path.lastIndexOf('.'));
+                if (ext.equalsIgnoreCase(".svg")) {
+                    accepted = true;
+                }
+            }
+            return accepted;
+        }
+
+        @Override
+        public String getDescription() {
+            return "SVG Files (*.svg)";
+        }
     }
 }
 
