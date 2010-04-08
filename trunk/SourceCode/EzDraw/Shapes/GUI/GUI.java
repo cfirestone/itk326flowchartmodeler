@@ -15,10 +15,7 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 public class GUI extends JFrame implements ActionListener, ItemListener {
     private Canvas canvas;
@@ -30,6 +27,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         setJMenuBar(menuBar);
         JMenu fileMenu = new JMenu("File");
         JMenu toolMenu = new JMenu("Tool");
+        JMenu stateMenu = new JMenu("State");
         JMenuItem newItem = fileMenu.add("New");
         JMenuItem openItem = fileMenu.add("Open");
         JMenuItem closeItem = fileMenu.add("Close");
@@ -52,8 +50,14 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         toolMenu.add(selectItem = new JMenuItem("Select Tool"));
         JMenuItem clearItem;
         toolMenu.add(clearItem = new JMenuItem("Clear All"));
+
+        JMenuItem undoItem, redoItem;
+        stateMenu.add(undoItem = new JMenuItem("Undo"));
+        stateMenu.add(redoItem = new JMenuItem("Redo"));
+
         menuBar.add(fileMenu);
         menuBar.add(toolMenu);
+        menuBar.add(stateMenu);
 
         canvas = new Canvas();
         this.add(canvas);
@@ -64,6 +68,9 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         textboxItem.addActionListener(this);
         selectItem.addActionListener(this);
         clearItem.addActionListener(this);
+
+        undoItem.addActionListener(this);
+        redoItem.addActionListener(this);
 
     }
 
@@ -88,7 +95,19 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         } else if (source.getText().equals("Clear All")) {
             canvas.clearAllShapes();
             canvas.repaint();
+        } else if (source.getText().equals("Redo")) {
+            if (!canvas.goForward()) {
+                showMessageBox("Error", "Cannot Redo.");
+            }
+        } else if (source.getText().equals("Undo")) {
+            if (!canvas.goBackward()) {
+                showMessageBox("Error", "Cannot Undo.");
+            }
         }
+    }
+
+    void menuSelected(MouseEvent e) {
+        String blah = "";
     }
 
     public Canvas getCanvas() {
@@ -97,6 +116,12 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
 
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
+    }
+
+    public void showMessageBox(String title, String message) {
+        JOptionPane pane = new JOptionPane(message);
+        JDialog dialog = pane.createDialog(new JFrame(), title);
+        dialog.show();
     }
 
     public static void main(String[] a) {

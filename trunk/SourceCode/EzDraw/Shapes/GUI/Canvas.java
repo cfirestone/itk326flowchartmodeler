@@ -172,4 +172,20 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
             update(getGraphics());
         }
     }
+
+    public boolean goForward() {
+        boolean flag = db.goForward();
+        if (flag) {
+            update(getGraphics());
+        }
+        return flag;
+    }
+
+    public boolean goBackward() {
+        boolean flag = db.goBackward();
+        if (flag) {
+            update(getGraphics());
+        }
+        return flag;
+    }
 }

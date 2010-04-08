@@ -16,11 +16,13 @@ import java.util.LinkedList;
  */
 public abstract class DrawingBoard {
     protected LinkedList<Shape> listOfShapes;
+    StateManager stateManager;
     protected float[] color;
 
 
     protected DrawingBoard() {
         listOfShapes = new LinkedList<Shape>();
+        stateManager = new StateManager();
     }
 
     public void drawShapes() {
@@ -36,20 +38,44 @@ public abstract class DrawingBoard {
     final public void addShape(Shape s) {
 
         listOfShapes.add(s);
+        updateStateManager();
         drawShapes();
     }
 
     final public void removeShape(Shape s) {
         listOfShapes.remove(s);
+        updateStateManager();
         drawShapes();
     }
 
     final public void clearAllShapes() {
         listOfShapes.clear();
+        updateStateManager();
     }
 
     abstract public void drawTempShape(Shape shape);
 
     abstract public Shape getShape(Point point);
+
+
+    protected void updateStateManager() {
+        stateManager.newState((LinkedList<Shape>) listOfShapes.clone());
+    }
+
+    public boolean goForward() {
+        boolean success = stateManager.goForward();
+        if (success) {
+            listOfShapes = (LinkedList<Shape>) (stateManager.getCurrentState().getListOfShapes().clone());
+        }
+        return success;
+    }
+
+    public boolean goBackward() {
+        boolean success = stateManager.goBackward();
+        if (success) {
+            listOfShapes = (LinkedList<Shape>) (stateManager.getCurrentState().getListOfShapes().clone());
+        }
+        return success;
+    }
 
 }
