@@ -89,16 +89,16 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         db.clearAllShapes();
     }
 
-    public void open(File f)
-    {
+    public void open(File f) {
         db.open(f);
         update(getGraphics());
     }
-    public void open(String path)
-    {    
+
+    public void open(String path) {
         db.open(path);
         update(getGraphics());
     }
+
     private boolean isLButtonDown(MouseEvent e) {
         return (e.getModifiers() & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK;
     }
@@ -199,4 +199,6 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         }
         return flag;
     }
+
+
 }
