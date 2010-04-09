@@ -220,6 +220,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
                 n.paint(this.getGraphics());
                 n.open();
                 /*n.repaint();*/
+                this.repaint();
             } else
                 System.out.println("Cannot open the diagram");
         }

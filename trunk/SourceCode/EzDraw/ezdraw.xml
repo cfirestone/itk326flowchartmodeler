@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ezdraw" default="all">
+
+
+    <property file="ezdraw.properties"/>
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <!--
+   <property name="skip.tests" value="true"/>
+    -->
+    <property name="javac2.home" value="${idea.home}/lib"/>
+    <path id="javac2.classpath">
+        <pathelement location="${javac2.home}/javac2.jar"/>
+        <pathelement location="${javac2.home}/jdom.jar"/>
+        <pathelement location="${javac2.home}/asm.jar"/>
+        <pathelement location="${javac2.home}/asm-commons.jar"/>
+    </path>
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions"
+             classpathref="javac2.classpath"/>
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value=""/>
+    <property name="compiler.max.memory" value="128m"/>
+    <patternset id="ignored.files">
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/.pyc/**"/>
+        <exclude name="**/.pyo/**"/>
+        <exclude name="**/*.pyc/**"/>
+        <exclude name="**/*.pyo/**"/>
+        <exclude name="**/.git/**"/>
+        <exclude name="**/*.hprof/**"/>
+        <exclude name="**/_svn/**"/>
+    </patternset>
+    <patternset id="library.patterns">
+        <include name="*.zip"/>
+        <include name="*.war"/>
+        <include name="*.egg"/>
+        <include name="*.ear"/>
+        <include name="*.swc"/>
+        <include name="*.jar"/>
+    </patternset>
+    <patternset id="compiler.resources">
+        <include name="**/?*.properties"/>
+        <include name="**/?*.xml"/>
+        <include name="**/?*.gif"/>
+        <include name="**/?*.png"/>
+        <include name="**/?*.jpeg"/>
+        <include name="**/?*.jpg"/>
+        <include name="**/?*.html"/>
+        <include name="**/?*.dtd"/>
+        <include name="**/?*.tld"/>
+        <include name="**/?*.ftl"/>
+    </patternset>
+
+    <!-- JDK definitions -->
+
+    <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
+    <path id="jdk.classpath.1.6">
+        <fileset dir="${jdk.home.1.6}">
+            <include name="jre/lib/alt-rt.jar"/>
+            <include name="jre/lib/charsets.jar"/>
+            <include name="jre/lib/deploy.jar"/>
+            <include name="jre/lib/javaws.jar"/>
+            <include name="jre/lib/jce.jar"/>
+            <include name="jre/lib/jsse.jar"/>
+            <include name="jre/lib/management-agent.jar"/>
+            <include name="jre/lib/plugin.jar"/>
+            <include name="jre/lib/resources.jar"/>
+            <include name="jre/lib/rt.jar"/>
+            <include name="jre/lib/ext/dnsns.jar"/>
+            <include name="jre/lib/ext/localedata.jar"/>
+            <include name="jre/lib/ext/sunjce_provider.jar"/>
+        </fileset>
+    </path>
+
+    <property name="project.jdk.home" value="${jdk.home.1.6}"/>
+    <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
+    <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
+
+    <!-- Modules -->
+
+
+    <!-- Module EzDraw -->
+
+    <dirname property="module.ezdraw.basedir" file="${ant.file}"/>
+
+
+    <property name="module.jdk.home.ezdraw" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.ezdraw" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.ezdraw" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.ezdraw" value="${compiler.args}"/>
+
+    <property name="ezdraw.output.dir" value="${module.ezdraw.basedir}/out/production/EzDraw"/>
+    <property name="ezdraw.testoutput.dir" value="${module.ezdraw.basedir}/out/test/EzDraw"/>
+
+    <path id="ezdraw.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="ezdraw.module.classpath">
+        <path refid="${module.jdk.classpath.ezdraw}"/>
+    </path>
+
+    <path id="ezdraw.runtime.module.classpath">
+        <pathelement location="${ezdraw.output.dir}"/>
+        <pathelement location="${ezdraw.testoutput.dir}"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.ezdraw">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.ezdraw">
+        <patternset refid="excluded.from.module.ezdraw"/>
+    </patternset>
+
+    <path id="ezdraw.module.sourcepath">
+        <dirset dir="${module.ezdraw.basedir}">
+            <include name="Shapes"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.ezdraw" depends="compile.module.ezdraw.production,compile.module.ezdraw.tests"
+            description="Compile module EzDraw"/>
+
+    <target name="compile.module.ezdraw.production" description="Compile module EzDraw; production classes">
+        <mkdir dir="${ezdraw.output.dir}"/>
+        <javac2 destdir="${ezdraw.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+                memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ezdraw}/javac">
+            <compilerarg line="${compiler.args.ezdraw}"/>
+            <bootclasspath refid="ezdraw.module.bootclasspath"/>
+            <classpath refid="ezdraw.module.classpath"/>
+            <src refid="ezdraw.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.ezdraw"/>
+        </javac2>
+
+        <copy todir="${ezdraw.output.dir}">
+            <fileset dir="${module.ezdraw.basedir}/Shapes">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.ezdraw.tests" depends="compile.module.ezdraw.production"
+            description="compile module EzDraw; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.ezdraw" description="cleanup module">
+        <delete dir="${ezdraw.output.dir}"/>
+        <delete dir="${ezdraw.testoutput.dir}"/>
+    </target>
+
+    <target name="init" description="Build initialization">
+        <!-- Perform any build initialization in this target -->
+    </target>
+
+    <target name="clean" depends="clean.module.ezdraw" description="cleanup all">
+
+    </target>
+
+    <target name="build.modules" depends="init, clean, compile.module.ezdraw" description="build all modules"/>
+
+    <target name="all" depends="build.modules" description="build all"/>
+
+    <target name="makeJar" depends="build.modules" description="make an executable jar">
+        <jar destfile="${base.dir}/lib/ezDraw.jar"
+             basedir="${ezdraw.output.dir}">
+
+            <manifest>
+                <attribute name="Main-Class" value="GUI.GUI"/>
+
+                <!-- Who is building this jar? -->
+
+                <attribute name="Built-By" value="Carl Firestone &amp; Justin Blakley"/>
+                <!-- Information about the program itself -->
+                <attribute name="Implementation-Vendor" value="EzDraw Inc."/>
+                <attribute name="Implementation-Title" value="EzDraw"/>
+                <attribute name="Implementation-Version" value="1.0.0beta2"/>
+
+
+            </manifest>
+        </jar>
+
+
+    </target>
+
+</project>
