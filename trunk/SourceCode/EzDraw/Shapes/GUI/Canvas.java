@@ -49,6 +49,12 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         menuItem = new JMenuItem("Shape Properties");
         menuItem.addActionListener(this);
         popup.add(menuItem);
+        menuItem = new JMenuItem("Set Nested Diagram");
+        menuItem.addActionListener(this);
+        popup.add(menuItem);
+        menuItem = new JMenuItem("Open Nested Diagram");
+        menuItem.addActionListener(this);
+        popup.add(menuItem);
 
         this.addMouseListener(this);
     }
@@ -192,6 +198,30 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
             db.removeShape(selectedShape);
             repaint();
             update(getGraphics());
+        }
+        else if(source.getText().equals("Set Nested Diagram")){
+            JFileChooser fc = new JFileChooser();
+            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            //fc.setFileFilter(new SVGFileFilter());
+            int returnVal = fc.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                String path = fc.getSelectedFile().getAbsolutePath();
+                selectedShape.setNestedDiagramURL(path);
+                System.out.println("Invoked setNestedDiagram: " + path);
+            }
+        }
+        else if(source.getText().equals("Open Nested Diagram")){
+            if(selectedShape.getNestedDiagramURL() != null){
+                NestedViewer n = new NestedViewer(selectedShape.getNestedDiagramURL());
+                n.open();
+                n.setBounds(30, 30, 500, 500); // Size
+                n.setLocation((int)this.getParent().getLocation().getX()+50,(int)this.getParent().getLocation().getY());
+                this.getParent().getLocation().getX();
+                n.setTitle("NestedViewer");
+                n.setVisible(true);
+            }
+            else
+                System.out.println("Cannot open the diagram");
         }
     }
 
