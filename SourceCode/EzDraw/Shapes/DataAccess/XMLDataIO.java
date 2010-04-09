@@ -96,13 +96,18 @@ public class XMLDataIO extends DataIO{
         int sX = (int)s.getStartPoint().getX();
         int sY = (int)s.getStartPoint().getY();
         int eY = (int)s.getEndPoint().getY();
+        int eX = (int)s.getEndPoint().getX();
 
         Element textElement = document.createElement("text");
         textElement.setAttribute("x",""+ sX);
-        textElement.setAttribute("y",""+ (sY + ((sY+eY)/2)));
+        textElement.setAttribute("y",""+ sY);
+        textElement.setAttribute("width",""+(eX-sX));
+        textElement.setAttribute("height",""+(eY-sY));
+        textElement.setAttribute("font-family","Verdana");
+        textElement.setAttribute("font-size","12");
         textElement.setAttribute("fill",""+rgbToHex(s.getFillColors()));
 
-        textElement.setNodeValue(((TextBox)s).getText());
+        textElement.appendChild(document.createTextNode(((TextBox)s).getText()));
 
         return textElement;
     }       
@@ -121,9 +126,6 @@ public class XMLDataIO extends DataIO{
 
         lineElement.setAttribute("fill",""+rgbToHex(s.getFillColors()));
         lineElement.setAttribute("stroke",""+rgbToHex(s.getBorderColors()));
-
-        if(s.getNestedDiagramURL() != null)
-            lineElement.setAttribute("nestURL",s.getNestedDiagramURL());
 
         return lineElement;
     }
@@ -210,9 +212,8 @@ public class XMLDataIO extends DataIO{
 
             circle = new Circle(new Point((double)x,(double)y),new Point((double)(x+r),(double)(y+r)));
 
-            if(uri != null){               
+            if(uri != null)               
                 circle.setNestedDiagramURL(uri);
-            }
 
             circle.setBorderColors(fillArray);
             circle.setFillColors(strokeArray);
@@ -292,12 +293,14 @@ public class XMLDataIO extends DataIO{
         {
             int x = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x").getNodeValue());
             int y = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("y").getNodeValue());
+            int width = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("width").getNodeValue());
+            int height = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("height").getNodeValue());
 
             String fill = nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue();
 
             float[] fillArray = convertHexToFloat(fill);
 
-            rect = new TextBox(new Point((double) x, (double) y), new Point((double) x , (double) y));
+            rect = new TextBox(new Point((double) x, (double) y), new Point((double) x+width , (double) y+height));
 
             rect.setBorderColors(fillArray);
 
@@ -359,9 +362,9 @@ public class XMLDataIO extends DataIO{
     }
 
     private String rgbToHex(float [] c){
-        int rI = (int)c[0] * 225;
-        int gI = (int)c[1] * 225;
-        int bI = (int)c[0] * 225;
+        int rI = (int)c[0] * 255;
+        int gI = (int)c[1] * 255;
+        int bI = (int)c[0] * 255;
 
         String rS = Integer.toHexString(rI);
         String gS = Integer.toHexString(gI);
