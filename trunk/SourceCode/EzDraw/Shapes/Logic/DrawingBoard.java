@@ -9,6 +9,7 @@ import Shapes.Point;
 import Shapes.Shape;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -59,27 +60,25 @@ public abstract class DrawingBoard {
 
     abstract public Shape getShape(Point point);
 
-    public void open(File f)
-    {
+    public void open(File f) {
 
     }
 
-    public void open(String path)
-    {
+    public void open(String path) {
         XMLDataIO dataIO = new XMLDataIO(path);
-        listOfShapes = dataIO.getData();        
+        listOfShapes = dataIO.getData();
         updateStateManager();
         drawShapes();
     }
 
     protected void updateStateManager() {
-        stateManager.newState((LinkedList<Shape>) listOfShapes.clone());
+        stateManager.newState(deepCopy(listOfShapes));
     }
 
     public boolean goForward() {
         boolean success = stateManager.goForward();
         if (success) {
-            listOfShapes = (LinkedList<Shape>) (stateManager.getCurrentState().getListOfShapes().clone());
+            listOfShapes = deepCopy(stateManager.getCurrentState().getListOfShapes());
         }
         return success;
     }
@@ -87,9 +86,17 @@ public abstract class DrawingBoard {
     public boolean goBackward() {
         boolean success = stateManager.goBackward();
         if (success) {
-            listOfShapes = (LinkedList<Shape>) (stateManager.getCurrentState().getListOfShapes().clone());
+            listOfShapes = deepCopy(stateManager.getCurrentState().getListOfShapes());
         }
         return success;
     }
 
+    private LinkedList<Shape> deepCopy(LinkedList<Shape> source) {
+        LinkedList<Shape> target = new LinkedList<Shape>();
+        Iterator<Shape> sourceItr = source.iterator();
+        while (sourceItr.hasNext()) {
+            target.add(sourceItr.next().clone());
+        }
+        return target;
+    }
 }

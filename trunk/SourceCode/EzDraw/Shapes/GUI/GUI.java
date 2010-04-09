@@ -95,6 +95,15 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
             if (n == JOptionPane.YES_OPTION) {
                 saveCurrent();
             }
+            Canvas tempCanvas = new Canvas();
+            tempCanvas.paintComponent(canvas.getGraphics());
+            tempCanvas.setCurrentTool(canvas.getCurrentTool());
+            this.remove(canvas);
+            this.add(tempCanvas);
+            this.validate();
+            canvas = tempCanvas;
+
+
         } else if (source.getText().equals("Open")) {
             open();
         } else if (source.getText().equals("Save")) {
@@ -148,7 +157,8 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         int returnVal = fc.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = fc.getSelectedFile().getAbsolutePath();
-            //canvas.(path);
+            //canvas.save(path);
+            System.out.println("Invoked save: " + path);
         }
     }
 
@@ -160,7 +170,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = fc.getSelectedFile().getAbsolutePath();
             canvas.open(path);
-            System.out.println(path);
+            System.out.println("Invoked open: " + path);
         }
     }
 
@@ -186,13 +196,16 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                 if (ext.equalsIgnoreCase(".svg")) {
                     accepted = true;
                 }
+                if (ext.equalsIgnoreCase(".xml")) {
+                    accepted = true;
+                }
             }
             return accepted;
         }
 
         @Override
         public String getDescription() {
-            return "SVG Files (*.svg)";
+            return "SVG/XML Files (*.svg,*.xml)";
         }
     }
 }
