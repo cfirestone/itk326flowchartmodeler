@@ -54,8 +54,7 @@ public class XMLDataIO extends DataIO{
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = factory.newDocumentBuilder();
-            String i = System.getProperty("user.dir") +"/"+ connectionString;
-            document = docBuilder.parse(i);
+            document = docBuilder.parse(connectionString);            
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -82,7 +81,7 @@ public class XMLDataIO extends DataIO{
             if(uri != null)
                 circle.setNestedDiagramURL(uri);
             
-            String style = nodes.item(i).getAttributes().getNamedItem("style").getNodeValue();
+            //String style = nodes.item(i).getAttributes().getNamedItem("style").getNodeValue();
 
             circles.add(circle);
         }
@@ -133,10 +132,10 @@ public class XMLDataIO extends DataIO{
         for(int i = 0; i < nodes.getLength(); i++)
         {
             //TODO check the actual query string for line
-            int sx = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("sx").getNodeValue());
-            int sy = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("sy").getNodeValue());
-            int ex = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("ex").getNodeValue());
-            int ey = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("ey").getNodeValue());
+            int sx = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x1").getNodeValue());
+            int sy = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("y1").getNodeValue());
+            int ex = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x2").getNodeValue());
+            int ey = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x2").getNodeValue());
 
             line = new Line(new Point((double)sx,(double)sy), new Point((double)ex,(double)ey));
             String uri = getNestedDiagram(nodes.item(i));
