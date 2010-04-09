@@ -4,8 +4,6 @@
 
 package GUI;
 
-import Logic.DrawingBoardJava2D;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,14 +18,17 @@ public class NestedViewer extends JFrame {
     private Canvas canvas;
     private String url;
 
-    public NestedViewer(String url){
+    public NestedViewer(String url) {
         canvas = new Canvas();
         this.setLayout(new BorderLayout());
         this.url = url;
 
         this.add(canvas);
     }
-    public void open(){
+
+    public void open() {
+
         canvas.open(url);
+
     }
 }
