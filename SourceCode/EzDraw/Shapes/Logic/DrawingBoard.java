@@ -79,6 +79,12 @@ public abstract class DrawingBoard {
     }
 
     public void save(String path) {
+        XMLDataIO dataIO = new XMLDataIO(path);
+        if(dataIO.saveData(listOfShapes))
+        {
+            
+        }
+
         isSaved = true;
     }
 

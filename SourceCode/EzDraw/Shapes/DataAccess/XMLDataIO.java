@@ -5,7 +5,9 @@
 package DataAccess;
 
 import Shapes.*;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -13,6 +15,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -37,6 +40,7 @@ public class XMLDataIO extends DataIO{
             data.addAll(getCirclesFromDocument());
             data.addAll(getRectanglesFromDocument());
             data.addAll(getLinesFromDocument());
+            data.addAll(getTextFromDocument());
         }
         catch (XPathExpressionException e) {
             System.out.println("Could not parse XML Document");
@@ -47,7 +51,130 @@ public class XMLDataIO extends DataIO{
 
     @Override
     public boolean saveData(LinkedList<Shape> shapes) {
-        return false;
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = null;
+        try {
+            docBuilder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        document = docBuilder.newDocument();
+
+        Element root = buildRoot();
+        
+        for(int i = 0; i < shapes.size(); i++){
+            Shape shape = shapes.get(i);
+
+            if(shape instanceof Circle){
+                root.appendChild(setCircleElement(shape));
+            }
+            else if(shape instanceof Line){
+                root.appendChild(setLineElement(shape));
+            }
+            else if(shape instanceof TextBox){
+                root.appendChild(setTextElement(shape));
+            }
+            else if(shape instanceof Rectangle){
+                root.appendChild(setRectangleElement(shape));
+            }
+        }
+
+        document.appendChild(root);
+        
+        XMLSerializer serializer = new XMLSerializer();
+        try {
+            serializer.setOutputCharStream(new FileWriter(connectionString));
+            serializer.serialize(document);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return false;
+        }
+        return true;
+    }
+
+    private Element setTextElement(Shape s){
+        int sX = (int)s.getStartPoint().getX();
+        int sY = (int)s.getStartPoint().getY();
+        int eY = (int)s.getEndPoint().getY();
+
+        Element textElement = document.createElement("text");
+        textElement.setAttribute("x",""+ sX);
+        textElement.setAttribute("y",""+ (sY + ((sY+eY)/2)));
+        textElement.setAttribute("fill",""+rgbToHex(s.getFillColors()));
+
+        textElement.setNodeValue(((TextBox)s).getText());
+
+        return textElement;
+    }       
+
+    private Element setLineElement(Shape s){
+        int sx = (int)s.getStartPoint().getX();
+        int sy = (int)s.getStartPoint().getY();
+        int ex = (int)s.getEndPoint().getX();
+        int ey = (int)s.getEndPoint().getY();
+
+        Element lineElement = document.createElement("line");
+        lineElement.setAttribute("x1",""+sx);
+        lineElement.setAttribute("x2",""+ex);
+        lineElement.setAttribute("y1",""+sy);
+        lineElement.setAttribute("y2",""+ey);
+
+        lineElement.setAttribute("fill",""+rgbToHex(s.getFillColors()));
+        lineElement.setAttribute("stroke",""+rgbToHex(s.getBorderColors()));
+
+        if(s.getNestedDiagramURL() != null)
+            lineElement.setAttribute("nestURL",s.getNestedDiagramURL());
+
+        return lineElement;
+    }
+
+    private Element setCircleElement(Shape s){
+        int sX = (int)s.getStartPoint().getX();
+        int sY = (int)s.getStartPoint().getY();
+        int r = (int)(s.getStartPoint().getDistance(s.getEndPoint())+.5);
+
+        Element circleElement = document.createElement("circle");
+        circleElement.setAttribute("cx",""+sX);
+        circleElement.setAttribute("cy",""+sY);
+        circleElement.setAttribute("r",""+ r);
+
+        circleElement.setAttribute("fill",""+rgbToHex(s.getFillColors()));
+        circleElement.setAttribute("stroke",""+rgbToHex(s.getBorderColors()));
+
+        if(s.getNestedDiagramURL() != null)
+            circleElement.setAttribute("nestURL",s.getNestedDiagramURL());
+
+        return circleElement;
+    }
+
+    private Element setRectangleElement(Shape s){
+        int sX = (int)s.getStartPoint().getX();
+        int sY = (int)s.getStartPoint().getY();
+        int eX = (int)s.getEndPoint().getX();
+        int eY = (int)s.getEndPoint().getY();
+
+        Element rectElement = document.createElement("rect");
+        rectElement.setAttribute("x",""+sX);
+        rectElement.setAttribute("y",""+sY);
+        rectElement.setAttribute("width",""+(eX-sX));
+        rectElement.setAttribute("height",""+(eY-sY));
+        rectElement.setAttribute("fill",""+rgbToHex(s.getFillColors()));
+        rectElement.setAttribute("stroke",""+rgbToHex(s.getBorderColors()));
+
+        if(s.getNestedDiagramURL() != null)
+            rectElement.setAttribute("nestURL",s.getNestedDiagramURL());
+
+        return rectElement;
+    }
+
+    private Element buildRoot() {
+        Element root = document.createElement("svg");
+        root.setAttribute("width","100%");
+        root.setAttribute("height","100%");
+        root.setAttribute("version","1.1");
+        root.setAttribute("xmlns","http://www.w3.org/2000/svg");
+
+        return root;
     }
 
     private void loadXMLFile(){
@@ -76,19 +203,19 @@ public class XMLDataIO extends DataIO{
             int r = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("r").getNodeValue());
             String fill = nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue();
             String stroke = nodes.item(i).getAttributes().getNamedItem("stroke").getNodeValue();
+            String uri = getNestedDiagram(nodes.item(i).getAttributes().getNamedItem("nestURL"));
 
             float[] fillArray = convertHexToFloat(fill);
             float[] strokeArray = convertHexToFloat(stroke);
 
             circle = new Circle(new Point((double)x,(double)y),new Point((double)(x+r),(double)(y+r)));
 
+            if(uri != null){               
+                circle.setNestedDiagramURL(uri);
+            }
+
             circle.setBorderColors(fillArray);
             circle.setFillColors(strokeArray);
-
-            String uri = getNestedDiagram(nodes.item(i));
-
-            if(uri != null)
-                circle.setNestedDiagramURL(uri);
 
             circles.add(circle);
         }
@@ -109,23 +236,15 @@ public class XMLDataIO extends DataIO{
             int height = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("height").getNodeValue());
             String fill = nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue();
             String stroke = nodes.item(i).getAttributes().getNamedItem("stroke").getNodeValue();
+            String uri = getNestedDiagram(nodes.item(i).getAttributes().getNamedItem("nestURL"));
 
             float[] fillArray = convertHexToFloat(fill);
             float[] strokeArray = convertHexToFloat(stroke);
 
-            if(nodes.item(i).getAttributes().getNamedItem("text") != null)
-            {
-                String text = nodes.item(i).getAttributes().getNamedItem("text").getNodeValue();
-                rect = new TextBox(new Point((double)x, (double)y),new Point((double)x+width, (double)y+height));
-                ((TextBox)rect).setText(text);
-            }
-            else {
-                rect = new Rectangle(new Point((double) x, (double) y), new Point((double) x + width, (double) y + height));
-            }
+            rect = new Rectangle(new Point((double) x, (double) y), new Point((double) x + width, (double) y + height));
             
             rect.setBorderColors(fillArray);
             rect.setFillColors(strokeArray);
-            String uri = getNestedDiagram(nodes.item(i));
 
             if(uri != null)
                 rect.setNestedDiagramURL(uri);
@@ -143,7 +262,6 @@ public class XMLDataIO extends DataIO{
         Line line;
         for(int i = 0; i < nodes.getLength(); i++)
         {
-            //TODO check the actual query string for line
             int sx = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x1").getNodeValue());
             int sy = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("y1").getNodeValue());
             int ex = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x2").getNodeValue());
@@ -159,20 +277,39 @@ public class XMLDataIO extends DataIO{
             line.setBorderColors(fillArray);
             line.setFillColors(strokeArray);
 
-            String uri = getNestedDiagram(nodes.item(i));
-
-            if(uri != null)
-                line.setNestedDiagramURL(uri);
-
             lines.add(line);
         }
 
         return lines;
     }
 
+    private LinkedList<TextBox> getTextFromDocument() throws XPathExpressionException{
+        LinkedList<TextBox> text = new LinkedList<TextBox>();
+
+        NodeList nodes = getNodeList("//text");
+        TextBox rect;
+        for(int i = 0; i < nodes.getLength(); i++)
+        {
+            int x = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("x").getNodeValue());
+            int y = Integer.parseInt(nodes.item(i).getAttributes().getNamedItem("y").getNodeValue());
+
+            String fill = nodes.item(i).getAttributes().getNamedItem("fill").getNodeValue();
+
+            float[] fillArray = convertHexToFloat(fill);
+
+            rect = new TextBox(new Point((double) x, (double) y), new Point((double) x , (double) y));
+
+            rect.setBorderColors(fillArray);
+
+            text.add(rect);
+        }
+
+        return text;
+    }
+
     private String getNestedDiagram(Node n){
-        if(n.hasChildNodes())
-         return n.getFirstChild().getNodeValue();
+        if(n != null)
+         return n.getNodeValue();
         return null;
     }
 
@@ -184,8 +321,7 @@ public class XMLDataIO extends DataIO{
         return (NodeList) result;
     }
 
-    private static float[] convertHexToFloat(String hex)
-    {
+    private static float[] convertHexToFloat(String hex){
         float[] returnVal = new float[3];
         if(hex.charAt(0)== '#')
         {
@@ -200,8 +336,8 @@ public class XMLDataIO extends DataIO{
         }
         return returnVal;
     }
-    private static int convertToInt(char c1, char c2)
-    {
+    
+    private static int convertToInt(char c1, char c2){
         int one, two;
         if(c1 == 'a' || c1 == 'A'){one = 10;}
         else if(c1 == 'b' || c1 == 'B'){one = 11;}
@@ -222,7 +358,22 @@ public class XMLDataIO extends DataIO{
         return (((one + 1)*(two + 1))-1);
     }
 
-    public static void main(String args[]){
-        convertHexToFloat("#00fF00");
+    private String rgbToHex(float [] c){
+        int rI = (int)c[0] * 225;
+        int gI = (int)c[1] * 225;
+        int bI = (int)c[0] * 225;
+
+        String rS = Integer.toHexString(rI);
+        String gS = Integer.toHexString(gI);
+        String bS = Integer.toHexString(bI);
+
+        if(rS.length() == 1)
+            rS = "0"+rS;
+        if(gS.length() == 1)
+            gS = "0"+gS;
+        if(bS.length() == 1)
+            bS = "0"+bS;
+
+        return "#"+rS+gS+bS;
     }
 }
