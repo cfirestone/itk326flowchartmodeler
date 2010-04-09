@@ -28,6 +28,13 @@ public class CompositeShape extends Shape {
         m_AttachmentStrategy = new AttachSides();
     }
 
+    //TODO add copy of childShapes to the returned
+    // make sure to use a deep copy, see DrawingBoard's deepCopy
+
+    public CompositeShape clone() {
+        return new CompositeShape(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+    }
+
     /**
      * Adds all elements of a collection to the children
      *

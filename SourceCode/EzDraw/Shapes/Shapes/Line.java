@@ -18,6 +18,10 @@ public class Line extends SimpleShape {
         m_AttachmentStrategy = new AttachNone();
     }
 
+    public Line clone() {
+        return new Line(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+    }
+
     /** {@inheritDoc} */
     public void calculatePoints() {
         if (listOfPoints == null)

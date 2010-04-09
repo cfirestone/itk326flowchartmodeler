@@ -21,6 +21,10 @@ public class Rectangle extends SimpleShape {
         m_AttachmentStrategy = new AttachSides();
     }
 
+    public Rectangle clone() {
+        return new Rectangle(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+    }
+
     /** {@inheritDoc} */
     public void calculatePoints() {
         if (listOfPoints == null)

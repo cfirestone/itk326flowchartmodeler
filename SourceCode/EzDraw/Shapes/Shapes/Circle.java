@@ -21,6 +21,10 @@ public class Circle extends SimpleShape {
         m_AttachmentStrategy = new AttachSides();
     }
 
+    public Circle clone() {
+        return new Circle(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+    }
+
     /** {@inheritDoc} */
     public void calculatePoints() {
         if (listOfPoints == null)

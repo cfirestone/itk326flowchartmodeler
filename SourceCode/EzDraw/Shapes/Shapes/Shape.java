@@ -36,6 +36,9 @@ public abstract class Shape {
         calculatePoints();
     }
 
+    public abstract Shape clone();
+
+
     /** Calculates the points needed to draw the shape */
     public abstract void calculatePoints();
 
@@ -126,18 +129,16 @@ public abstract class Shape {
      *
      * @return The string representing the Path to the nested Diagram
      */
-    final public String getNestedDiagramURL()
-    {
+    final public String getNestedDiagramURL() {
         return this.nestedDiagramURL;
     }
 
     /**
      * Sets the string URL for the nested diagram
      *
-     *  @param s The string representing the Path to the nested Diagram
+     * @param s The string representing the Path to the nested Diagram
      */
-    final public void setNestedDiagramURL(String s)
-    {
+    final public void setNestedDiagramURL(String s) {
         this.nestedDiagramURL = s;
     }
 
@@ -146,8 +147,7 @@ public abstract class Shape {
      *
      * @param c the array of colors to set
      */
-    final public void setBorderColors(float[] c)
-    {
+    final public void setBorderColors(float[] c) {
         rBorderColor = c[0];
         gBorderColor = c[1];
         bBorderColor = c[2];
@@ -160,8 +160,7 @@ public abstract class Shape {
      * @param g the green component of colors to set
      * @param b the blue component of colors to set
      */
-    final public void setBorderColors(float r, float g, float b)
-    {
+    final public void setBorderColors(float r, float g, float b) {
         rBorderColor = r;
         gBorderColor = g;
         bBorderColor = b;
@@ -172,8 +171,7 @@ public abstract class Shape {
      *
      * @return The array containing the shapes border colors
      */
-    final public float[] getBorderColors()
-    {
+    final public float[] getBorderColors() {
         float[] c = new float[3];
         c[0] = rBorderColor;
         c[1] = gBorderColor;
@@ -186,8 +184,7 @@ public abstract class Shape {
      *
      * @param c the array of colors to set
      */
-    final public void setFillColors(float[] c)
-    {
+    final public void setFillColors(float[] c) {
         rFillColor = c[0];
         gFillColor = c[1];
         bFillColor = c[2];
@@ -200,8 +197,7 @@ public abstract class Shape {
      * @param g the green component of colors to set
      * @param b the blue component of colors to set
      */
-    final public void setFillColors(float r, float g, float b)
-    {
+    final public void setFillColors(float r, float g, float b) {
         rFillColor = r;
         gFillColor = g;
         bFillColor = b;
@@ -212,8 +208,7 @@ public abstract class Shape {
      *
      * @return The array containing the shapes Fill colors
      */
-    final public float[] getFillColors()
-    {
+    final public float[] getFillColors() {
         float[] c = new float[3];
         c[0] = rFillColor;
         c[1] = gFillColor;
