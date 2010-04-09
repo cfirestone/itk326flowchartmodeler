@@ -33,12 +33,14 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     private JPopupMenu popup;
     private Shape selectedShape;
 
+
     public Canvas() {
         setBackground(Color.white);
         addMouseMotionListener(this);
         addMouseListener(this);
         setDb(new DrawingBoardJava2D());
         currentTool = ToolType.SELECT;
+
 
         popup = new JPopupMenu();
         JMenuItem menuItem = new JMenuItem("Delete");
@@ -97,6 +99,14 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     public void open(String path) {
         db.open(path);
         update(getGraphics());
+    }
+
+    public void save(File f) {
+        db.save(f);
+    }
+
+    public void save(String path) {
+        db.save(path);
     }
 
     private boolean isLButtonDown(MouseEvent e) {
@@ -163,6 +173,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
             selectedShape = db.getShape(new Shapes.Point(e.getX(), e.getY()));
             if (selectedShape != null) {
                 popup.show(e.getComponent(), e.getX(), e.getY());
+
             }
         }
 
@@ -198,6 +209,10 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
             update(getGraphics());
         }
         return flag;
+    }
+
+    public boolean isSaved() {
+        return db.isSaved();
     }
 
 

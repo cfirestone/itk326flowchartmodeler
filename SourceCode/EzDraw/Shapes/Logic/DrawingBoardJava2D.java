@@ -91,7 +91,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
         for (int i = 0; i < listOfShapes.size(); i++) {
             if (!foundTopShape) {
                 if (listOfShapes.get(listOfShapes.size() - 1 - i).containsPoint(point)) {
-                    foundShape = listOfShapes.get(i);
+                    foundShape = listOfShapes.get(listOfShapes.size() - 1 - i);
                     foundTopShape = true;
                 }
             }

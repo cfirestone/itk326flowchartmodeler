@@ -21,6 +21,7 @@ import java.io.File;
 
 public class GUI extends JFrame implements ActionListener, ItemListener {
     private Canvas canvas;
+    private String lastSavedPath;
 
     public GUI() {
         JMenuBar menuBar = new JMenuBar();
@@ -32,12 +33,8 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         JMenu stateMenu = new JMenu("State");
         JMenuItem newItem = fileMenu.add("New");
         JMenuItem openItem = fileMenu.add("Open");
-        JMenuItem closeItem = fileMenu.add("Close");
         fileMenu.addSeparator();
         JMenuItem saveItem = fileMenu.add("Save");
-        JMenuItem saveAsItem = fileMenu.add("Save As...");
-        fileMenu.addSeparator();
-        JMenuItem printItem = fileMenu.add("Print");
         fileMenu.addSeparator();
         JMenuItem exitItem = fileMenu.add("Exit");
         JMenuItem lineItem;
@@ -67,7 +64,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         newItem.addActionListener(this);
         openItem.addActionListener(this);
         saveItem.addActionListener(this);
-
+        exitItem.addActionListener(this);
 
         lineItem.addActionListener(this);
         rectItem.addActionListener(this);
@@ -90,10 +87,11 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
         JMenuItem source = (JMenuItem) (e.getSource());
         if (source.getText().equals("New")) {
-            //TODO check if saved
-            int n = JOptionPane.showConfirmDialog(null, "Save?", "Save?", JOptionPane.YES_NO_OPTION);
-            if (n == JOptionPane.YES_OPTION) {
-                saveCurrent();
+            if (!canvas.isSaved()) {
+                int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
+                if (n == JOptionPane.YES_OPTION) {
+                    saveCurrent();
+                }
             }
             Canvas tempCanvas = new Canvas();
             tempCanvas.paintComponent(canvas.getGraphics());
@@ -105,9 +103,19 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
 
 
         } else if (source.getText().equals("Open")) {
+            if (!canvas.isSaved()) {
+                int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
+                if (n == JOptionPane.YES_OPTION) {
+                    saveCurrent();
+                }
+            }
             open();
         } else if (source.getText().equals("Save")) {
+
             saveCurrent();
+
+        } else if (source.getText().equals("Exit")) {
+            shutdown();
         } else if (source.getText().equals("Draw Line")) {
             canvas.setCurrentTool(ToolType.DRAW_LINE);
         } else if (source.getText().equals("Draw Textbox")) {
@@ -156,7 +164,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         fc.setFileFilter(new SVGFileFilter());
         int returnVal = fc.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            String path = fc.getSelectedFile().getAbsolutePath();
+            String path = fc.getSelectedFile().getAbsolutePath() + ".svg";
             //canvas.save(path);
             System.out.println("Invoked save: " + path);
         }
@@ -180,6 +188,17 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         window.setTitle("EzDraw 0.1");
         window.setVisible(true);
     }
+
+    protected void shutdown() {
+        if (!canvas.isSaved()) {
+            int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
+            if (n == JOptionPane.YES_OPTION) {
+                saveCurrent();
+            }
+        }
+        System.exit(0);
+    }
+
 
     protected class SVGFileFilter extends FileFilter {
 

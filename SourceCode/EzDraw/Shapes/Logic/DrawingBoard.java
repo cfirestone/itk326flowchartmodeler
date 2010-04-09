@@ -19,13 +19,16 @@ import java.util.LinkedList;
  */
 public abstract class DrawingBoard {
     protected LinkedList<Shape> listOfShapes;
-    StateManager stateManager;
+    protected StateManager stateManager;
+    protected boolean isSaved;
     protected float[] color;
 
 
     protected DrawingBoard() {
         listOfShapes = new LinkedList<Shape>();
         stateManager = new StateManager();
+
+        isSaved = false;
     }
 
     public void drawShapes() {
@@ -71,14 +74,24 @@ public abstract class DrawingBoard {
         drawShapes();
     }
 
+    public void save(File f) {
+        isSaved = true;
+    }
+
+    public void save(String path) {
+        isSaved = true;
+    }
+
     protected void updateStateManager() {
         stateManager.newState(deepCopy(listOfShapes));
+        isSaved = false;
     }
 
     public boolean goForward() {
         boolean success = stateManager.goForward();
         if (success) {
             listOfShapes = deepCopy(stateManager.getCurrentState().getListOfShapes());
+            isSaved = false;
         }
         return success;
     }
@@ -87,6 +100,7 @@ public abstract class DrawingBoard {
         boolean success = stateManager.goBackward();
         if (success) {
             listOfShapes = deepCopy(stateManager.getCurrentState().getListOfShapes());
+            isSaved = false;
         }
         return success;
     }
@@ -98,5 +112,9 @@ public abstract class DrawingBoard {
             target.add(sourceItr.next().clone());
         }
         return target;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
     }
 }
