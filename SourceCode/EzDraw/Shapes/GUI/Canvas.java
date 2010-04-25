@@ -49,9 +49,6 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         menuItem = new JMenuItem("Shape Properties");
         menuItem.addActionListener(this);
         popup.add(menuItem);
-        menuItem = new JMenuItem("Set Nested Diagram");
-        menuItem.addActionListener(this);
-        popup.add(menuItem);
         menuItem = new JMenuItem("Open Nested Diagram");
         menuItem.addActionListener(this);
         popup.add(menuItem);
@@ -198,16 +195,6 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
             db.removeShape(selectedShape);
             repaint();
             update(getGraphics());
-        } else if (source.getText().equals("Set Nested Diagram")) {
-            JFileChooser fc = new JFileChooser();
-            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            //fc.setFileFilter(new SVGFileFilter());
-            int returnVal = fc.showOpenDialog(null);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                String path = fc.getSelectedFile().getAbsolutePath();
-                selectedShape.setNestedDiagramURL(path);
-                System.out.println("Invoked setNestedDiagram: " + path);
-            }
         } else if (source.getText().equals("Open Nested Diagram")) {
             if (selectedShape.getNestedDiagramURL() != null) {
                 NestedViewer n = new NestedViewer(selectedShape.getNestedDiagramURL());
@@ -221,8 +208,20 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
                 n.open();
                 /*n.repaint();*/
                 this.repaint();
-            } else
+            } else{
                 System.out.println("Cannot open the diagram");
+            }
+        } else if(source.getText().equals("Shape Properties")){
+            Component c = this.getParent();
+            while(!(c instanceof Frame) && c != null){
+                c = c.getParent();
+            }
+            ShapePropertyDialog shapeProperty = new ShapePropertyDialog(selectedShape,(Frame)c);
+
+            shapeProperty.setVisible(true);
+            shapeProperty.dispose();
+            shapeProperty = null;
+            update(getGraphics());
         }
     }
 
