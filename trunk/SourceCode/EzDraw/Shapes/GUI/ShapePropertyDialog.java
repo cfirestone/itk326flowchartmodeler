@@ -102,8 +102,10 @@ public class ShapePropertyDialog extends JDialog implements ActionListener {
         if(source == ok){
             float[] a = new float[3];
             float[] b = new float[3];
-            shapeToChange.setFillColors(fillColorChooser.getColor().getColorComponents(a));
-            shapeToChange.setBorderColors(strokeColorChooser.getColor().getColorComponents(b));
+            fillColorChooser.getColor().getRGBColorComponents(a);
+            strokeColorChooser.getColor().getRGBColorComponents(b);
+            shapeToChange.setFillColors(a);
+            shapeToChange.setBorderColors(b);
             shapeToChange.setNestedDiagramURL(pathField.getText());
             System.out.println(""+a[0]+" "+a[1]+" "+a[2]);
             System.out.println(""+b[0]+" "+b[1]+" "+b[2]);
