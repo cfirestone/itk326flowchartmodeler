@@ -115,7 +115,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
             saveCurrent();
 
         } else if (source.getText().equals("Exit")) {
-            shutdown();
+            processWindowEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
         } else if (source.getText().equals("Draw Line")) {
             canvas.setCurrentTool(ToolType.DRAW_LINE);
         } else if (source.getText().equals("Draw Textbox")) {
@@ -155,7 +155,9 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
     public void showMessageBox(String title, String message) {
         JOptionPane pane = new JOptionPane(message);
         JDialog dialog = pane.createDialog(new JFrame(), title);
-        dialog.show();
+        dialog.setVisible(true);
+        dialog = null;
+        pane = null;
     }
 
     private void saveCurrent() {
@@ -170,7 +172,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                 System.out.println("Invoked save: " + path);
             }
             catch(Exception e){
-                JOptionPane.showMessageDialog(this, "Unable to save the file");
+                this.showMessageBox("Data Error", "Cannot save data");
             }
         }
     }
@@ -186,7 +188,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                 canvas.open(path);
             }
             catch(Exception e){
-                JOptionPane.showMessageDialog(this,"Unable to load shape data");
+                this.showMessageBox("Data Error", "Cannot read data");
             }
             System.out.println("Invoked open: " + path);
         }
@@ -199,16 +201,17 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         window.setVisible(true);
     }
 
-    protected void shutdown() {
-        if (!canvas.isSaved()) {
-            int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
-            if (n == JOptionPane.YES_OPTION) {
-                saveCurrent();
+    protected void processWindowEvent(WindowEvent e){
+        if(e.getID() == WindowEvent.WINDOW_CLOSING){
+            if(!canvas.isSaved()){
+                int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
+                if (n == JOptionPane.YES_OPTION) {
+                    saveCurrent();
+                }
             }
+            System.exit(0);
         }
-        System.exit(0);
     }
-
 
     protected class SVGFileFilter extends FileFilter {
 
