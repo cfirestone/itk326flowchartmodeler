@@ -97,21 +97,21 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         db.clearAllShapes();
     }
 
-    public void open(File f) {
+    public void open(File f) throws Exception{
         db.open(f);
         update(getGraphics());
     }
 
-    public void open(String path) {
+    public void open(String path)throws Exception{
         db.open(path);
         update(getGraphics());
     }
 
-    public void save(File f) {
+    public void save(File f) throws Exception{
         db.save(f);
     }
 
-    public void save(String path) {
+    public void save(String path) throws Exception {
         db.save(path);
     }
 

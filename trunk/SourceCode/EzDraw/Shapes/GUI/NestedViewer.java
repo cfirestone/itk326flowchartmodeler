@@ -27,8 +27,11 @@ public class NestedViewer extends JFrame {
     }
 
     public void open() {
-
-        canvas.open(url);
-
+        try{
+            canvas.open(url);
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Unable to load shape data");
+        }
     }
 }

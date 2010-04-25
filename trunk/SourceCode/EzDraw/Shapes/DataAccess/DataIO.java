@@ -6,6 +6,7 @@ package DataAccess;
 
 import Shapes.Shape;
 
+import javax.xml.xpath.XPathExpressionException;
 import java.util.LinkedList;
 
 /**
@@ -21,6 +22,6 @@ public abstract class DataIO {
         connectionString = newConnString;
     }
     
-    public abstract LinkedList<Shape> getData();
-    public abstract boolean saveData(LinkedList<Shape> shapes);
+    public abstract LinkedList<Shape> getData() throws Exception;
+    public abstract boolean saveData(LinkedList<Shape> shapes) throws Exception;
 }

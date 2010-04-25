@@ -32,32 +32,26 @@ public class XMLDataIO extends DataIO{
         connectionString = connData;
     }
     @Override
-    public LinkedList<Shape> getData() {
+    public LinkedList<Shape> getData() throws Exception {
         LinkedList<Shape> data = new LinkedList<Shape>();
 
         loadXMLFile();
-        try {
-            data.addAll(getCirclesFromDocument());
-            data.addAll(getRectanglesFromDocument());
-            data.addAll(getLinesFromDocument());
-            data.addAll(getTextFromDocument());
-        }
-        catch (XPathExpressionException e) {
-            System.out.println("Could not parse XML Document");
-            e.printStackTrace();  
-        }
+
+        data.addAll(getCirclesFromDocument());
+        data.addAll(getRectanglesFromDocument());
+        data.addAll(getLinesFromDocument());
+        data.addAll(getTextFromDocument());
+
         return data;
     }
 
     @Override
-    public boolean saveData(LinkedList<Shape> shapes) {
+    public boolean saveData(LinkedList<Shape> shapes)throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = null;
-        try {
-            docBuilder = factory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+
+        docBuilder = factory.newDocumentBuilder();
+
         document = docBuilder.newDocument();
 
         Element root = buildRoot();
@@ -82,13 +76,10 @@ public class XMLDataIO extends DataIO{
         document.appendChild(root);
         
         XMLSerializer serializer = new XMLSerializer();
-        try {
-            serializer.setOutputCharStream(new FileWriter(connectionString));
-            serializer.serialize(document);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            return false;
-        }
+
+        serializer.setOutputCharStream(new FileWriter(connectionString));
+        serializer.serialize(document);
+
         return true;
     }
 
@@ -179,18 +170,10 @@ public class XMLDataIO extends DataIO{
         return root;
     }
 
-    private void loadXMLFile(){
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = factory.newDocumentBuilder();
-            document = docBuilder.parse(connectionString);            
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void loadXMLFile() throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = factory.newDocumentBuilder();
+        document = docBuilder.parse(connectionString);
     }
 
     private LinkedList<Circle> getCirclesFromDocument() throws XPathExpressionException {
