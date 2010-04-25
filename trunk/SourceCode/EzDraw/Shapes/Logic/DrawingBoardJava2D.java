@@ -41,6 +41,11 @@ public class DrawingBoardJava2D extends DrawingBoard {
 
         LinkedList<Point> listOfPoints = s.getListOfPoints();
 
+        float[] fcolors = s.getFillColors();
+        float[] scolors = s.getBorderColors();
+        g2.setColor(new Color(fcolors[0],fcolors[1],fcolors[2]));
+        g2.setColor(new Color(scolors[0],scolors[1],scolors[2]));
+
         // check for line, because line is NOT a polygon
         if (s instanceof Line) {
             if (listOfPoints.size() != 2) {
@@ -54,9 +59,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
                 poly.addPoint((int) p.getX(), (int) p.getY());
             }
 
-            g2.setColor(new Color(240, 240, 240));
             g2.fill(poly);
-            g2.setColor(Color.black);
             g2.draw(poly);
 
             if (s instanceof TextBox) {
