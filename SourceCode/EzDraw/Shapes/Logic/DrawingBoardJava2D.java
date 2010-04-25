@@ -44,7 +44,6 @@ public class DrawingBoardJava2D extends DrawingBoard {
         float[] fcolors = s.getFillColors();
         float[] scolors = s.getBorderColors();
         g2.setColor(new Color(fcolors[0],fcolors[1],fcolors[2]));
-        g2.setColor(new Color(scolors[0],scolors[1],scolors[2]));
 
         // check for line, because line is NOT a polygon
         if (s instanceof Line) {
@@ -60,6 +59,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
             }
 
             g2.fill(poly);
+            g2.setColor(new Color(scolors[0],scolors[1],scolors[2]));
             g2.draw(poly);
 
             if (s instanceof TextBox) {
