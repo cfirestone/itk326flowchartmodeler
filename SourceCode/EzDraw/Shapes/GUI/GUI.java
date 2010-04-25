@@ -165,8 +165,13 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         int returnVal = fc.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = fc.getSelectedFile().getAbsolutePath() + ".svg";
-            canvas.save(path);
-            System.out.println("Invoked save: " + path);
+            try{
+                canvas.save(path);
+                System.out.println("Invoked save: " + path);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Unable to save the file");
+            }
         }
     }
 
@@ -177,7 +182,12 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = fc.getSelectedFile().getAbsolutePath();
-            canvas.open(path);
+            try{
+                canvas.open(path);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this,"Unable to load shape data");
+            }
             System.out.println("Invoked open: " + path);
         }
     }

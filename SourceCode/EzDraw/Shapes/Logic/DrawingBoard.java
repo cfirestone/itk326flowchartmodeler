@@ -63,22 +63,22 @@ public abstract class DrawingBoard {
 
     abstract public Shape getShape(Point point);
 
-    public void open(File f) {
+    public void open(File f) throws Exception {
 
     }
 
-    public void open(String path) {
+    public void open(String path) throws Exception {
         XMLDataIO dataIO = new XMLDataIO(path);
         listOfShapes = dataIO.getData();
         updateStateManager();
         drawShapes();
     }
 
-    public void save(File f) {
+    public void save(File f) throws Exception{
         isSaved = true;
     }
 
-    public void save(String path) {
+    public void save(String path) throws Exception {
         XMLDataIO dataIO = new XMLDataIO(path);
         if(dataIO.saveData(listOfShapes))
         {
