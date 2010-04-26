@@ -4,7 +4,7 @@
 
 package Logic;
 
-import DataAccess.XMLDataIO;
+import DataAccess.*;
 import Shapes.Point;
 import Shapes.Shape;
 
@@ -20,6 +20,7 @@ import java.util.LinkedList;
 public abstract class DrawingBoard {
     protected LinkedList<Shape> listOfShapes;
     protected StateManager stateManager;
+    protected DataIO dataIO;
     protected boolean isSaved;
     protected float[] color;
 
@@ -64,11 +65,11 @@ public abstract class DrawingBoard {
     abstract public Shape getShape(Point point);
 
     public void open(File f) throws Exception {
-
+        open(f.getAbsolutePath());
     }
 
     public void open(String path) throws Exception {
-        XMLDataIO dataIO = new XMLDataIO(path);
+        dataIO = new XMLDataIO(path);
         listOfShapes = dataIO.getData();
         updateStateManager();
         drawShapes();
@@ -76,14 +77,18 @@ public abstract class DrawingBoard {
     }
 
     public void save(File f) throws Exception{
-        isSaved = true;
+        String path = null;
+        if(f != null)
+            path = f.getAbsolutePath();
+        save(path);
     }
 
     public void save(String path) throws Exception {
-        XMLDataIO dataIO = new XMLDataIO(path);
+        if(dataIO == null)
+            dataIO = new XMLDataIO(path);
         if(dataIO.saveData(listOfShapes))
         {
-            
+                
         }
 
         isSaved = true;
