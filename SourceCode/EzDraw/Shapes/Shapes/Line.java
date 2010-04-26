@@ -16,6 +16,9 @@ public class Line extends SimpleShape {
     public Line(Point p1, Point p2) {
         super(p1, p2);
         m_AttachmentStrategy = new AttachNone();
+
+        rFillColor = gFillColor = bFillColor = 0.0f;
+        rBorderColor = gBorderColor = bBorderColor = 0.0f;
     }
 
     public Line clone() {

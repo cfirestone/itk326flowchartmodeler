@@ -32,6 +32,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     private ToolType currentTool;
     private JPopupMenu popup;
     private Shape selectedShape;
+    private double mouseDownX, mouseDownY, mouseCurrX, mouseCurrY, mouseUpX, mouseUpY;
 
 
     public Canvas() {
@@ -41,6 +42,8 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         setDb(new DrawingBoardJava2D());
         currentTool = ToolType.SELECT;
 
+
+        mouseDownX = mouseDownY = mouseCurrX = mouseCurrY = mouseUpX = mouseUpY = 0;
 
         popup = new JPopupMenu();
         JMenuItem menuItem = new JMenuItem("Delete");
@@ -130,9 +133,30 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public void mouseDragged(MouseEvent e) {
+        double mcx, mcy;
+        mcx = (mouseCurrX == 0) ? mouseDownX : mouseCurrX;
+        mcy = (mouseCurrY == 0) ? mouseDownY : mouseCurrY;
+
+
+        mouseCurrX = e.getX();
+        mouseCurrY = e.getY();
+        if (isLButtonDown(e) && mouseDown) {
+            switch (currentTool) {
+                case SELECT:
+                    if (selectedShape != null) {
+                        double deltaX = mouseCurrX - mcx;
+                        double deltaY = mouseCurrY - mcy;
+                        selectedShape = db.dragShape(selectedShape, deltaX, deltaY);
+                    }
+                    break;
+            }
+        }
+        update(getGraphics());
     }
 
     public void mouseMoved(MouseEvent e) {
+
+
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -142,10 +166,18 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public void mouseReleased(MouseEvent e) {
+        mouseUpX = e.getX();
+        mouseUpY = e.getY();
         endPoint = new Shapes.Point(e.getX(), e.getY());
         if (isLButtonDown(e) && mouseDown) {
             switch (currentTool) {
                 case SELECT:
+                    if (selectedShape != null) {
+                        double deltaX = mouseUpX - mouseDownX;
+                        double deltaY = mouseUpY - mouseDownY;
+                        // comit the change to the statemanager, but only slightly move this time
+                        db.translateShape(selectedShape, .000000001, .000000001);
+                    }
                     break;
                 case DRAW_TEXTBOX:
                     TextBox tb = new TextBox(startPoint, endPoint);
@@ -169,10 +201,16 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
             update(getGraphics());
         }
         mouseDown = false;
+        mouseCurrX = mouseCurrY = 0;
     }
 
     public void mousePressed(MouseEvent e) {
+        mouseDownX = e.getX();
+        mouseDownY = e.getY();
         if (isLButtonDown(e)) {
+            if (currentTool == ToolType.SELECT) {
+                selectedShape = db.getShape(new Shapes.Point(e.getX(), e.getY()));
+            }
             if (!mouseDown) {
                 startPoint = new Shapes.Point(e.getX(), e.getY());
             }
@@ -240,10 +278,14 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
                 this.repaint();
             } else {
                 //JOptionPane.showMessageDialog(this,"Cannot change properties of a TextBox","Error",JOptionPane.ERROR_MESSAGE);
+
                 String newText = JOptionPane.showInputDialog(this, "Edit text", ((TextBox) selectedShape).getText());
-                db.changeTextBox((TextBox) selectedShape, newText);
-                update(getGraphics());
-                this.repaint();
+
+                if (newText != null) {
+                    db.changeTextBox((TextBox) selectedShape, newText);
+                    update(getGraphics());
+                    this.repaint();
+                }
             }
         }
     }
