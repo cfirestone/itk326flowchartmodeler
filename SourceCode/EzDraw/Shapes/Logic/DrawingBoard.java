@@ -72,6 +72,7 @@ public abstract class DrawingBoard {
         listOfShapes = dataIO.getData();
         updateStateManager();
         drawShapes();
+        isSaved = true;
     }
 
     public void save(File f) throws Exception{

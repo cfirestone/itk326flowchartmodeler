@@ -198,8 +198,8 @@ public class XMLDataIO extends DataIO{
             if(uri != null)               
                 circle.setNestedDiagramURL(uri);
 
-            circle.setBorderColors(fillArray);
-            circle.setFillColors(strokeArray);
+            circle.setBorderColors(strokeArray);
+            circle.setFillColors(fillArray);
 
             circles.add(circle);
         }
@@ -227,8 +227,8 @@ public class XMLDataIO extends DataIO{
 
             rect = new Rectangle(new Point((double) x, (double) y), new Point((double) x + width, (double) y + height));
             
-            rect.setBorderColors(fillArray);
-            rect.setFillColors(strokeArray);
+            rect.setBorderColors(strokeArray);
+            rect.setFillColors(fillArray);
 
             if(uri != null)
                 rect.setNestedDiagramURL(uri);
@@ -258,8 +258,8 @@ public class XMLDataIO extends DataIO{
 
             line = new Line(new Point((double)sx,(double)sy), new Point((double)ex,(double)ey));
 
-            line.setBorderColors(fillArray);
-            line.setFillColors(strokeArray);
+            line.setBorderColors(strokeArray);
+            line.setFillColors(fillArray);
 
             lines.add(line);
         }
@@ -345,9 +345,9 @@ public class XMLDataIO extends DataIO{
     }
 
     private String rgbToHex(float [] c){
-        int rI = (int)c[0] * 255;
-        int gI = (int)c[1] * 255;
-        int bI = (int)c[0] * 255;
+        int rI = (int)(c[0] * 255);
+        int gI = (int)(c[1] * 255);
+        int bI = (int)(c[2] * 255);
 
         String rS = Integer.toHexString(rI);
         String gS = Integer.toHexString(gI);
