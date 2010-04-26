@@ -94,17 +94,17 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         db.clearAllShapes();
     }
 
-    public void open(File f) throws Exception{
+    public void open(File f) throws Exception {
         db.open(f);
         update(getGraphics());
     }
 
-    public void open(String path)throws Exception{
+    public void open(String path) throws Exception {
         db.open(path);
         update(getGraphics());
     }
 
-    public void save(File f) throws Exception{
+    public void save(File f) throws Exception {
         db.save(f);
     }
 
@@ -208,20 +208,29 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
                 n.open();
                 /*n.repaint();*/
                 this.repaint();
-            } else{
+            } else {
                 System.out.println("Cannot open the diagram");
             }
-        } else if(source.getText().equals("Shape Properties")){
+        } else if (source.getText().equals("Shape Properties")) {
             Component c = this.getParent();
-            while(!(c instanceof Frame) && c != null){
+            while (!(c instanceof Frame) && c != null) {
                 c = c.getParent();
             }
-            ShapePropertyDialog shapeProperty = new ShapePropertyDialog(selectedShape,(Frame)c);
+            ShapePropertyDialog shapeProperty = new ShapePropertyDialog(selectedShape, (Frame) c);
 
             shapeProperty.setVisible(true);
+
+            float[] fillRGB = shapeProperty.getFillRGB();
+            float[] strokeRGB = shapeProperty.getStrokeRGB();
+            String pathURL = shapeProperty.getNestedPath();
+
             shapeProperty.dispose();
             shapeProperty = null;
+
+            db.changeShapeProperties(selectedShape, fillRGB, strokeRGB, pathURL);
+
             update(getGraphics());
+            this.repaint();
         }
     }
 

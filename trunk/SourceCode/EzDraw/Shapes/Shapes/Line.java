@@ -19,7 +19,10 @@ public class Line extends SimpleShape {
     }
 
     public Line clone() {
-        return new Line(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+        Line clone = new Line(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+        clone.setBorderColors(this.getBorderColors());
+        clone.setFillColors(this.getFillColors());
+        return clone;
     }
 
     /** {@inheritDoc} */
@@ -56,10 +59,20 @@ public class Line extends SimpleShape {
 
         double actualSlope = (startPoint.getY() - endPoint.getY()) / (startPoint.getX() - endPoint.getX());
         double proposedSlope = (startPoint.getY() - p.getY()) / (startPoint.getX() - p.getX());
-        if (proposedSlope == actualSlope && yBounds && xBounds) {
+        if (checkSlopes(actualSlope, proposedSlope) && yBounds && xBounds) {
             bool = true;
         }
 
+        return bool;
+    }
+
+    private boolean checkSlopes(double actual, double proposed) {
+        final double percentError = .05;
+        boolean bool = false;
+
+        if (Math.abs(((proposed - actual) / actual)) <= percentError) {
+            bool = true;
+        }
         return bool;
     }
 }

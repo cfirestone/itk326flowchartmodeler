@@ -21,6 +21,12 @@ public class TextBox extends Rectangle {
         rFillColor = gFillColor = bFillColor = rBorderColor = gBorderColor = bBorderColor = 1.0f;
     }
 
+    public TextBox clone() {
+        TextBox clone = (TextBox) super.clone();
+        clone.setText(this.getText());
+        return clone;
+    }
+
     /**
      * Sets the text in the text box
      *

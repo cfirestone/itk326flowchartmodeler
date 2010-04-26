@@ -4,7 +4,8 @@
 
 package Logic;
 
-import DataAccess.*;
+import DataAccess.DataIO;
+import DataAccess.XMLDataIO;
 import Shapes.Point;
 import Shapes.Shape;
 
@@ -76,19 +77,18 @@ public abstract class DrawingBoard {
         isSaved = true;
     }
 
-    public void save(File f) throws Exception{
+    public void save(File f) throws Exception {
         String path = null;
-        if(f != null)
+        if (f != null)
             path = f.getAbsolutePath();
         save(path);
     }
 
     public void save(String path) throws Exception {
-        if(dataIO == null)
+        if (dataIO == null)
             dataIO = new XMLDataIO(path);
-        if(dataIO.saveData(listOfShapes))
-        {
-                
+        if (dataIO.saveData(listOfShapes)) {
+
         }
 
         isSaved = true;
@@ -128,5 +128,18 @@ public abstract class DrawingBoard {
 
     public boolean isSaved() {
         return isSaved;
+    }
+
+    public void changeShapeProperties(Shape s, float[] fill, float[] stroke, String path) {
+        int index = listOfShapes.indexOf(s);
+        Shape changedShape = s.clone();
+        changedShape.setBorderColors(stroke);
+        changedShape.setFillColors(fill);
+        changedShape.setNestedDiagramURL(path);
+        listOfShapes.set(index, changedShape);
+        updateStateManager();
+        drawShapes();
+
+
     }
 }

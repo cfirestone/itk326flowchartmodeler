@@ -22,7 +22,10 @@ public class Circle extends SimpleShape {
     }
 
     public Circle clone() {
-        return new Circle(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+        Circle clone = new Circle(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+        clone.setBorderColors(this.getBorderColors());
+        clone.setFillColors(this.getFillColors());
+        return clone;
     }
 
     /** {@inheritDoc} */
