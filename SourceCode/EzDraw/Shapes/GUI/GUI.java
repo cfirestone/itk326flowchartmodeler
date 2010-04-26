@@ -95,7 +95,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                 int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
                     if(saveEnabled)
-                        saveCurrent(null);
+                        saveCurrent(lastSavedPath);
                     else
                         saveCurrentAs();
                 }
@@ -114,7 +114,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
                 int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
                     if(saveEnabled)
-                        saveCurrent(null);
+                        saveCurrent(lastSavedPath);
                     else
                         saveCurrentAs();
                 }
@@ -125,7 +125,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
             saveCurrentAs();
             setSaveEnabled(true);
         } else if (source.getText().equals("Save")) {
-            saveCurrent(null);
+            saveCurrent(lastSavedPath);
         }else if (source.getText().equals("Exit")) {
             processWindowEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
         } else if (source.getText().equals("Draw Line")) {
@@ -198,7 +198,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         fc.setFileFilter(new SVGFileFilter());
         int returnVal = fc.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            String path = fc.getSelectedFile().getAbsolutePath() + ".svg";
+            String path = lastSavedPath =fc.getSelectedFile().getAbsolutePath() + ".svg";
             saveCurrent(path);
         }
     }
@@ -218,7 +218,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         fc.setFileFilter(new SVGFileFilter());
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            String path = fc.getSelectedFile().getAbsolutePath();
+            String path = lastSavedPath = fc.getSelectedFile().getAbsolutePath();
             try{
                 canvas.open(path);
             }
