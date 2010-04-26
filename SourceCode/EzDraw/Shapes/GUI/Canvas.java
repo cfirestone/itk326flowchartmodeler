@@ -148,7 +148,13 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
                 case SELECT:
                     break;
                 case DRAW_TEXTBOX:
-                    db.addShape(new TextBox(startPoint, endPoint));
+                    TextBox tb = new TextBox(startPoint, endPoint);
+                    String text = (String) JOptionPane.showInputDialog(
+                            this,
+                            "Enter the text for this TextBox:\n",
+                            "TextBox Text Entry");
+                    tb.setText(text);
+                    db.addShape(tb);
                     break;
                 case DRAW_LINE:
                     db.addShape(new Line(startPoint, endPoint));
@@ -212,25 +218,33 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
                 System.out.println("Cannot open the diagram");
             }
         } else if (source.getText().equals("Shape Properties")) {
-            Component c = this.getParent();
-            while (!(c instanceof Frame) && c != null) {
-                c = c.getParent();
+            if (!(selectedShape instanceof TextBox)) {
+                Component c = this.getParent();
+                while (!(c instanceof Frame) && c != null) {
+                    c = c.getParent();
+                }
+                ShapePropertyDialog shapeProperty = new ShapePropertyDialog(selectedShape, (Frame) c);
+
+                shapeProperty.setVisible(true);
+
+                float[] fillRGB = shapeProperty.getFillRGB();
+                float[] strokeRGB = shapeProperty.getStrokeRGB();
+                String pathURL = shapeProperty.getNestedPath();
+
+                shapeProperty.dispose();
+                shapeProperty = null;
+
+                db.changeShapeProperties(selectedShape, fillRGB, strokeRGB, pathURL);
+
+                update(getGraphics());
+                this.repaint();
+            } else {
+                //JOptionPane.showMessageDialog(this,"Cannot change properties of a TextBox","Error",JOptionPane.ERROR_MESSAGE);
+                String newText = JOptionPane.showInputDialog(this, "Edit text", ((TextBox) selectedShape).getText());
+                db.changeTextBox((TextBox) selectedShape, newText);
+                update(getGraphics());
+                this.repaint();
             }
-            ShapePropertyDialog shapeProperty = new ShapePropertyDialog(selectedShape, (Frame) c);
-
-            shapeProperty.setVisible(true);
-
-            float[] fillRGB = shapeProperty.getFillRGB();
-            float[] strokeRGB = shapeProperty.getStrokeRGB();
-            String pathURL = shapeProperty.getNestedPath();
-
-            shapeProperty.dispose();
-            shapeProperty = null;
-
-            db.changeShapeProperties(selectedShape, fillRGB, strokeRGB, pathURL);
-
-            update(getGraphics());
-            this.repaint();
         }
     }
 
