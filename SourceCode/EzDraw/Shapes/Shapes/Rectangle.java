@@ -22,7 +22,10 @@ public class Rectangle extends SimpleShape {
     }
 
     public Rectangle clone() {
-        return new Rectangle(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+        Rectangle clone = new Rectangle(new Point(startPoint.getX(), startPoint.getY()), new Point(endPoint.getX(), endPoint.getY()));
+        clone.setBorderColors(this.getBorderColors());
+        clone.setFillColors(this.getFillColors());
+        return clone;
     }
 
     /** {@inheritDoc} */

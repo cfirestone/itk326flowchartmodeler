@@ -7,7 +7,6 @@ package GUI;
 import Shapes.Shape;
 
 import javax.swing.*;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,19 +19,25 @@ import java.awt.event.ActionListener;
  * To change this template use File | Settings | File Templates.
  */
 public class ShapePropertyDialog extends JDialog implements ActionListener {
-    JPanel content, lowerButton, lower, upperleft, upperright, nestedContent,nestedPanel;
+    JPanel content, lowerButton, lower, upperleft, upperright, nestedContent, nestedPanel;
     JColorChooser fillColorChooser, strokeColorChooser;
-    JButton ok,cancel, fileChooser;
+    JButton ok, cancel, fileChooser;
     JLabel strokeColor, fillColor, path;
     JTextField pathField;
     JTabbedPane tabs;
 
     Shape shapeToChange;
 
-    public ShapePropertyDialog(Shape s, Frame owner){
+    protected float[] fillRGB;
+    protected float[] strokeRGB;
+
+    public ShapePropertyDialog(Shape s, Frame owner) {
         super(owner, true);
         setTitle("Shape Options");
         shapeToChange = s;
+
+        fillRGB = new float[3];
+        strokeRGB = new float[3];
 
         content = new JPanel(new BorderLayout());
         lowerButton = new JPanel();
@@ -47,7 +52,7 @@ public class ShapePropertyDialog extends JDialog implements ActionListener {
         path = new JLabel("Path:");
         pathField = new JTextField();
         nestedPanel.add(path, BorderLayout.NORTH);
-        nestedPanel.add(pathField,BorderLayout.CENTER);
+        nestedPanel.add(pathField, BorderLayout.CENTER);
         nestedPanel.add(fileChooser, BorderLayout.EAST);
         nestedContent.add(nestedPanel, BorderLayout.NORTH);
 
@@ -92,28 +97,34 @@ public class ShapePropertyDialog extends JDialog implements ActionListener {
         content.add(tabs, BorderLayout.PAGE_START);
         content.add(lower, BorderLayout.PAGE_END);
 
-        this.setBounds(200,200,500,455);
+        this.setBounds(200, 200, 500, 455);
 
         this.setContentPane(content);
     }
 
     public void actionPerformed(ActionEvent e) {
-        JButton source = (JButton)e.getSource();
-        if(source == ok){
+        JButton source = (JButton) e.getSource();
+        if (source == ok) {
             float[] a = new float[3];
             float[] b = new float[3];
-            fillColorChooser.getColor().getRGBColorComponents(a);
-            strokeColorChooser.getColor().getRGBColorComponents(b);
-            shapeToChange.setFillColors(a);
-            shapeToChange.setBorderColors(b);
-            shapeToChange.setNestedDiagramURL(pathField.getText());
-            System.out.println(""+a[0]+" "+a[1]+" "+a[2]);
-            System.out.println(""+b[0]+" "+b[1]+" "+b[2]);
+            fillColorChooser.getColor().getRGBColorComponents(fillRGB);
+            strokeColorChooser.getColor().getRGBColorComponents(strokeRGB);
+
+            /*
+            Shape changedShape = shapeToChange.clone();
+            changedShape.setFillColors(fillRGB);
+            changedShape.setBorderColors(strokeRGB);
+            changedShape.setNestedDiagramURL(pathField.getText());
+            shapeToChange = changedShape;
+            */
+
+            System.out.println("" + a[0] + " " + a[1] + " " + a[2]);
+            System.out.println("" + b[0] + " " + b[1] + " " + b[2]);
             this.setVisible(false);
 
-        }else if(source == cancel){
+        } else if (source == cancel) {
             this.setVisible(false);
-        }else if(source == fileChooser){
+        } else if (source == fileChooser) {
             JFileChooser fc = new JFileChooser();
             fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
             //fc.setFileFilter(new SVGFileFilter());
@@ -123,5 +134,17 @@ public class ShapePropertyDialog extends JDialog implements ActionListener {
                 pathField.setText(path);
             }
         }
+    }
+
+    public float[] getFillRGB() {
+        return fillRGB;
+    }
+
+    public float[] getStrokeRGB() {
+        return strokeRGB;
+    }
+
+    public String getNestedPath() {
+        return pathField.getText();
     }
 }
