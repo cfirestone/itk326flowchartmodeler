@@ -34,6 +34,8 @@ public abstract class Shape {
         endPoint = p2;
 
         calculatePoints();
+        rFillColor = gFillColor = bFillColor = 1.0f;
+        rBorderColor = gBorderColor = bBorderColor = 0.0f;
     }
 
     public abstract Shape clone();
@@ -64,6 +66,7 @@ public abstract class Shape {
      */
     public void setStartPoint(Point p) {
         startPoint = p;
+        calculatePoints();
     }
 
     /**
@@ -73,6 +76,7 @@ public abstract class Shape {
      */
     public void setEndPoint(Point p) {
         endPoint = p;
+        calculatePoints();
     }
 
     /** Calls the IAttachable to calculate snap points */

@@ -155,4 +155,34 @@ public abstract class DrawingBoard {
         updateStateManager();
         drawShapes();
     }
+
+    public Shape translateShape(Shape s, double deltaX, double deltaY) {
+        int index = listOfShapes.indexOf(s);
+        Shape clone = s.clone();
+        Point cloneStart, cloneEnd;
+        cloneStart = new Point(clone.getStartPoint().getX() + deltaX, clone.getStartPoint().getY() + deltaY);
+        cloneEnd = new Point(clone.getEndPoint().getX() + deltaX, clone.getEndPoint().getY() + deltaY);
+        clone.setStartPoint(cloneStart);
+        clone.setEndPoint(cloneEnd);
+        listOfShapes.set(index, clone);
+        updateStateManager();
+        drawShapes();
+        return clone;
+    }
+
+    public Shape dragShape(Shape s, double deltaX, double deltaY) {
+        int index = listOfShapes.indexOf(s);
+        Shape clone = s.clone();
+        Point cloneStart, cloneEnd;
+        cloneStart = new Point(clone.getStartPoint().getX() + deltaX, clone.getStartPoint().getY() + deltaY);
+        cloneEnd = new Point(clone.getEndPoint().getX() + deltaX, clone.getEndPoint().getY() + deltaY);
+        clone.setStartPoint(cloneStart);
+        clone.setEndPoint(cloneEnd);
+        listOfShapes.set(index, clone);
+        //updateStateManager();
+        drawShapes();
+        return clone;
+    }
+
+
 }

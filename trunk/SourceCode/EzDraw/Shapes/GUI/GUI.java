@@ -19,7 +19,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 
-public class GUI extends JFrame implements ActionListener, ItemListener {
+public class GUI extends JFrame implements ActionListener, ItemListener, KeyListener {
     private Canvas canvas;
     private String lastSavedPath;
     private boolean saveEnabled = false;
@@ -63,6 +63,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
 
         canvas = new Canvas();
         this.add(canvas);
+        this.addKeyListener(this);
 
         newItem.addActionListener(this);
         openItem.addActionListener(this);
@@ -94,7 +95,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
             if (!canvas.isSaved()) {
                 int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
-                    if(saveEnabled)
+                    if (saveEnabled)
                         saveCurrent(lastSavedPath);
                     else
                         saveCurrentAs();
@@ -113,7 +114,7 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
             if (!canvas.isSaved()) {
                 int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
-                    if(saveEnabled)
+                    if (saveEnabled)
                         saveCurrent(lastSavedPath);
                     else
                         saveCurrentAs();
@@ -126,8 +127,8 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
             setSaveEnabled(true);
         } else if (source.getText().equals("Save")) {
             saveCurrent(lastSavedPath);
-        }else if (source.getText().equals("Exit")) {
-            processWindowEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
+        } else if (source.getText().equals("Exit")) {
+            processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         } else if (source.getText().equals("Draw Line")) {
             canvas.setCurrentTool(ToolType.DRAW_LINE);
         } else if (source.getText().equals("Draw Textbox")) {
@@ -156,16 +157,16 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         JMenuBar menuBar = this.getJMenuBar();
         JMenu menu = null;
         Component[] c = menuBar.getComponents();
-        for(int i = 0; menu == null; i++){
-            if(c[i] instanceof JMenu){
-                menu = (JMenu)c[i];
+        for (int i = 0; menu == null; i++) {
+            if (c[i] instanceof JMenu) {
+                menu = (JMenu) c[i];
             }
         }
         c = menu.getMenuComponents();
-        for(int i = 0; i < c.length; i++){
-            if(c[i] instanceof JMenuItem){
-                if(((JMenuItem)c[i]).getText().equals("Save")){
-                    ((JMenuItem)c[i]).setEnabled(enabled);
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] instanceof JMenuItem) {
+                if (((JMenuItem) c[i]).getText().equals("Save")) {
+                    ((JMenuItem) c[i]).setEnabled(enabled);
                     break;
                 }
             }
@@ -198,17 +199,17 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         fc.setFileFilter(new SVGFileFilter());
         int returnVal = fc.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            String path = lastSavedPath =fc.getSelectedFile().getAbsolutePath() + ".svg";
+            String path = lastSavedPath = fc.getSelectedFile().getAbsolutePath() + ".svg";
             saveCurrent(path);
         }
     }
 
-    private void saveCurrent(String path){
-        try{
+    private void saveCurrent(String path) {
+        try {
             canvas.save(path);
         }
-        catch(Exception e){
-            this.showMessageBox("Data Error","Cannot save data");
+        catch (Exception e) {
+            this.showMessageBox("Data Error", "Cannot save data");
         }
     }
 
@@ -219,10 +220,10 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = lastSavedPath = fc.getSelectedFile().getAbsolutePath();
-            try{
+            try {
                 canvas.open(path);
             }
-            catch(Exception e){
+            catch (Exception e) {
                 this.showMessageBox("Data Error", "Cannot read data");
             }
             System.out.println("Invoked open: " + path);
@@ -236,17 +237,40 @@ public class GUI extends JFrame implements ActionListener, ItemListener {
         window.setVisible(true);
     }
 
-    protected void processWindowEvent(WindowEvent e){
-        if(e.getID() == WindowEvent.WINDOW_CLOSING){
-            if(!canvas.isSaved()){
+    protected void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            if (!canvas.isSaved()) {
                 int n = JOptionPane.showConfirmDialog(null, "Do you want to save?", "Unsaved work", JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
-                    if(saveEnabled)
+                    if (saveEnabled)
                         saveCurrentAs();
                 }
             }
             System.exit(0);
         }
+    }
+
+    public void keyTyped(KeyEvent e) {
+        if (e.getModifiers() == KeyEvent.CTRL_MASK) {
+            char key = e.getKeyChar();
+            if (key == '\u001A') { //z
+                if (!canvas.goBackward()) {
+                    showMessageBox("Error", "Cannot Undo.");
+                }
+            }
+            if (key == '\u0019') { // y
+                if (!canvas.goForward()) {
+                    showMessageBox("Error", "Cannot Redo.");
+                }
+            }
+        }
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    public void keyReleased(KeyEvent e) {
     }
 
     protected class SVGFileFilter extends FileFilter {
