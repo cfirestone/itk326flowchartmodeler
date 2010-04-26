@@ -57,8 +57,13 @@ public abstract class DrawingBoard {
     }
 
     final public void clearAllShapes() {
-        listOfShapes.clear();
-        updateStateManager();
+        // this check is so you cant clear all on an empty list,
+        // and still be able to undo the clear all
+        if (listOfShapes.size() > 0) {
+            listOfShapes.clear();
+            updateStateManager();
+            drawShapes();
+        }
     }
 
     abstract public void drawTempShape(Shape shape);
