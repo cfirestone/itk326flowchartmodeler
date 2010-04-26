@@ -9,7 +9,12 @@ import Shapes.Point;
 import Shapes.Shape;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextLayout;
 import java.awt.geom.Line2D;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
 import java.util.LinkedList;
 
 /**
@@ -43,7 +48,7 @@ public class DrawingBoardJava2D extends DrawingBoard {
 
         float[] fcolors = s.getFillColors();
         float[] scolors = s.getBorderColors();
-        g2.setColor(new Color(fcolors[0],fcolors[1],fcolors[2]));
+        g2.setColor(new Color(fcolors[0], fcolors[1], fcolors[2]));
 
         // check for line, because line is NOT a polygon
         if (s instanceof Line) {
@@ -59,14 +64,57 @@ public class DrawingBoardJava2D extends DrawingBoard {
             }
 
             g2.fill(poly);
-            g2.setColor(new Color(scolors[0],scolors[1],scolors[2]));
+            g2.setColor(new Color(scolors[0], scolors[1], scolors[2]));
             g2.draw(poly);
 
+
+            // adapted from
+            // http://java.sun.com/developer/onlineTraining/Media/2DText/style.html#multiple
             if (s instanceof TextBox) {
                 TextBox t = (TextBox) s;
-                String text = t.getText();
-                double heightMidPoint = ((listOfPoints.get(0).getY()) + (listOfPoints.get(listOfPoints.size() - 1)).getY()) / 2.0;
-                g2.drawString(text, (int) (listOfPoints.get(0).getX()), (int) heightMidPoint);
+                AttributedString aStr = new AttributedString(t.getText());
+                AttributedCharacterIterator text = aStr.getIterator();
+
+                FontRenderContext frc = new FontRenderContext(null, false, false);
+                LineBreakMeasurer lbm = new LineBreakMeasurer(text, frc);
+                int textStart, textEnd;
+                textStart = text.getBeginIndex();
+                textEnd = text.getEndIndex();
+                float formatWidth = (float) Math.abs(t.getEndPoint().getX() - t.getStartPoint().getX());
+
+                float drawPosY = (float) t.getStartPoint().getY();
+
+                lbm.setPosition(textStart);
+
+
+                // Get lines from lineMeasurer until the entire
+                // paragraph has been displayed.
+                while (lbm.getPosition() < textEnd) {
+
+                    // Retrieve next layout.
+                    TextLayout layout = lbm.nextLayout(formatWidth);
+
+                    // Move y-coordinate by the ascent of the layout.
+                    drawPosY += layout.getAscent();
+
+                    // Compute pen x position.  If the paragraph is
+                    // right-to-left, we want to align the TextLayouts
+                    // to the right edge of the panel.
+                    float drawPosX;
+                    if (layout.isLeftToRight()) {
+                        drawPosX = (float) t.getStartPoint().getX();
+                    } else {
+                        drawPosX = (float) t.getStartPoint().getX() + formatWidth - layout.getAdvance();
+                    }
+
+                    // Draw the TextLayout at (drawPosX, drawPosY).
+                    layout.draw(g2, drawPosX, drawPosY);
+
+                    // Move y-coordinate in preparation for next layout.
+                    drawPosY += layout.getDescent() + layout.getLeading();
+                }
+
+
             }
             if (s instanceof CompositeShape) {
                 LinkedList<Shape> listOfShapes = ((CompositeShape) s).getListOfShapes();

@@ -18,11 +18,22 @@ public class TextBox extends Rectangle {
         m_Type = "TextBox";
         m_Text = "(default text)";
 
-        rFillColor = gFillColor = bFillColor = rBorderColor = gBorderColor = bBorderColor = 1.0f;
+        rFillColor = gFillColor = bFillColor = 1.0f;
+        rBorderColor = gBorderColor = bBorderColor = 0.0f;
+    }
+
+    public TextBox(Rectangle rect) {
+        super(rect.startPoint, rect.endPoint);
+        m_Type = "TextBox";
+        m_Text = "(default text)";
+
+        rFillColor = gFillColor = bFillColor = 1.0f;
+        rBorderColor = gBorderColor = bBorderColor = 0.0f;
+
     }
 
     public TextBox clone() {
-        TextBox clone = (TextBox) super.clone();
+        TextBox clone = new TextBox(super.clone());
         clone.setText(this.getText());
         return clone;
     }

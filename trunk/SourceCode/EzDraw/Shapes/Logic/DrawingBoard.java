@@ -8,6 +8,7 @@ import DataAccess.DataIO;
 import DataAccess.XMLDataIO;
 import Shapes.Point;
 import Shapes.Shape;
+import Shapes.TextBox;
 
 import java.io.File;
 import java.util.Iterator;
@@ -144,7 +145,14 @@ public abstract class DrawingBoard {
         listOfShapes.set(index, changedShape);
         updateStateManager();
         drawShapes();
+    }
 
-
+    public void changeTextBox(TextBox tb, String newText) {
+        int index = listOfShapes.indexOf(tb);
+        TextBox changedTextBox = tb.clone();
+        changedTextBox.setText(newText);
+        listOfShapes.set(index, changedTextBox);
+        updateStateManager();
+        drawShapes();
     }
 }
