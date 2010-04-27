@@ -28,6 +28,9 @@ import java.util.LinkedList;
 public class XMLDataIO extends DataIO{
     private Document document;   
 
+    /**
+     * The Constructor for XMLDataIO
+     */
     public XMLDataIO(String connData){
         connectionString = connData;
     }

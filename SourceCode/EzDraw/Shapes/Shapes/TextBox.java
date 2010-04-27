@@ -13,6 +13,11 @@ package Shapes;
 public class TextBox extends Rectangle {
     private String m_Text;
 
+    /**
+     * Constructor for TextBod
+     * @param p1 The starting point
+     * @param p2 The ending point
+     */
     public TextBox(Point p1, Point p2) {
         super(p1, p2);
         m_Type = "TextBox";
@@ -22,6 +27,10 @@ public class TextBox extends Rectangle {
         rBorderColor = gBorderColor = bBorderColor = 0.0f;
     }
 
+    /**
+     * The constructor for TextBox
+     * @param rect The rectangle object to make this text box out of
+     */
     public TextBox(Rectangle rect) {
         super(rect.startPoint, rect.endPoint);
         m_Type = "TextBox";
