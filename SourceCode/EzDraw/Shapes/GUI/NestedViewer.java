@@ -19,7 +19,7 @@ public class NestedViewer extends JFrame {
     private String url;
 
     public NestedViewer(String url) {
-        canvas = new Canvas();
+        canvas = new NestViewerCanvas();
         this.setLayout(new BorderLayout());
         this.url = url;
 
